@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -16,13 +19,15 @@ jobs:
           ruby-version: '3.2'
 
       - name: Install Bundler and dependencies
+        working-directory: docs
         run: |
           gem install bundler
           bundle config set --local path 'vendor/bundle'
           bundle install
 
       - name: Build site
-        run: bundle exec jekyll build --source docs --destination _site
+        working-directory: docs
+        run: bundle exec jekyll build --destination ../_site
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
