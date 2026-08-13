@@ -5,4 +5,8 @@ title: "Welcome on BC Syntoralis FIFO Logistic Helper"
 
 In Progress
 
-[FIFO Setup](./setup.html)
+##Detailed section
+- [FIFO Setup](./setup.html)
+
+##Download section
+[MarketPlace App](https://github.com/Syntoralis/BCApps/tree/main/AppSource/Syntoralis-fifo-logistic)
