@@ -5,4 +5,4 @@ title: "Syntoralis FIFO Logistic - FIFO Setup"
 
 In progress
 
-[FIFO Setup](./index.html)
+[Index](./index.html)
