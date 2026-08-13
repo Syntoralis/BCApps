@@ -5,6 +5,6 @@ title: "Bienvenue sur l'aide Syntoralis BCApps"
 
 En cours
 
-# Accès Rapide
+# Accès Rapide (Seulement en anglais)
 
-- [Marketplace app](../AppSource/Syntoralis-fifo-logistic/SYNTORALIS_LIS-LOG-FIFO_1.0.0.50.marketplace.app)
+- [Syntoralis FIFO Logistic](./syntoralis-fifo-logistic)
