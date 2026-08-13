@@ -3,8 +3,8 @@ description: "Docs for BCApps"
 markdown: kramdown
 plugins:
   - jekyll-feed
-url: ""
-baseurl: "/"
+url: "https://syntoralis.github.io"
+baseurl: "/BCApps/"
 sass:
   style: compressed
 
