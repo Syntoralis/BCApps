@@ -1,6 +1,10 @@
 title: Syntoralis BCApps
 description: "Docs for BCApps"
-theme: minima
 markdown: kramdown
 plugins:
   - jekyll-feed
+url: ""
+baseurl: "/"
+sass:
+  style: compressed
+
