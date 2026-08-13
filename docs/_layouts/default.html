@@ -55,21 +55,9 @@
             </ul>
           </div>
         </nav>
-<div class="lang-toggle-container" role="group" aria-label="Language selection">
-        <div class="flag-item active" aria-current="true">
-          <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-            <rect width="900" height="600" fill="#012169"/>
-            <path d="M0,0 L900,600 M900,0 L0,600" stroke="#fff" stroke-width="120"/>
-            <path d="M0,0 L900,600 M900,0 L0,600" stroke="#C8102E" stroke-width="80" stroke-linecap="round"/>
-            <path d="M450,0 L450,600 M0,300 L900,300" stroke="#fff" stroke-width="200"/>
-            <path d="M450,0 L450,600 M0,300 L900,300" stroke="#C8102E" stroke-width="120"/>
-          </svg>
-          <span class="lang-code">EN</span>
-        </div>
-        
-        <!-- <span class="flag-separator" aria-hidden="true">|</span> -->
-        
-        <!-- Target Language (FR) -->
+      <div class="lang-toggle-container" role="group" aria-label="Sélection de la langue">
+          <!-- Langue Actuelle (FR) - Non cliquable, mais lisible -->
+<!-- Target Language (FR) -->
         <a href="index.html" class="flag-item" hreflang="fr" title="Passer en français">
           <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <!-- FR SVG paths -->
@@ -79,7 +67,23 @@
           </svg>
           <span class="lang-code">FR</span>
         </a>
-      </div>
+        <span class="lang-code">FR</span>
+          
+          <!-- <span class="flag-separator" aria-hidden="true">|</span> -->
+          
+          <!-- Langue Cible (EN) - Cliquant -->
+          <a href="index-en.html" class="flag-item" hreflang="en" title="Switch to English">
+            <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <rect width="900" height="600" fill="#012169"/>
+              <path d="M0,0 L900,600 M900,0 L0,600" stroke="#fff" stroke-width="120"/>
+              <path d="M0,0 L900,600 M900,0 L0,600" stroke="#C8102E" stroke-width="80" stroke-linecap="round"/>
+              <path d="M450,0 L450,600 M0,300 L900,300" stroke="#fff" stroke-width="200"/>
+              <path d="M450,0 L450,600 M0,300 L900,300" stroke="#C8102E" stroke-width="120"/>
+            </svg>
+            <span class="lang-code">EN</span>
+          </a>
+        </div>
+        
         <button id="themeToggle" class="theme-toggle" aria-label="Toggle between light and dark mode">
           <svg id="themeIcon" role="img" aria-label="Theme icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path class="sun-icon" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M12 8a4 4 0 100 8 4 4 0 000-8z" style="display: none;" />         
