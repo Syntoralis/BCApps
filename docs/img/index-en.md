@@ -1,10 +1,10 @@
 ---
 layout: home
-title: "Bienvenue sur l'aide Syntoralis BCApps"
+title: "Welcome on Syntoralis BCApps Helper"
 ---
 
-EN Cours
+IN PROGRESS
 
-# Raccourcis
+# Quick Links
 
 - [Marketplace app](../AppSource/Syntoralis-fifo-logistic/SYNTORALIS_LIS-LOG-FIFO_1.0.0.50.marketplace.app)
