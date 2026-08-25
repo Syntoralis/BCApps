@@ -238,4 +238,6 @@ The FIFO solution operates on three mandatory stages:
 
 Only when all prerequisites are met does the system apply FIFO stock consumption rules based on Stock-in DateTime and generate FIFO-compliant warehouse picks.
 
+---
+
 [Index](./index-en.html)

@@ -197,3 +197,7 @@ F --> G[FIFO Engine Consumes Oldest Inventory]
 # Key Concept
 
 The Warehouse Inventory page is a **visibility and control page**. It does not itself perform FIFO calculations but presents the inventory data used by the FIFO engine. Users can therefore understand, validate, and troubleshoot the inventory sequence that will drive warehouse pick generation and stock consumption.
+
+---
+
+[Index](./index-en.html)

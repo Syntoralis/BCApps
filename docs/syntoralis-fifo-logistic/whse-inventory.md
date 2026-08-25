@@ -198,3 +198,7 @@ F --> G[Le moteur FIFO consomme l'inventaire le plus ancien]
 # Concept clé
 
 La page Inventaire d'entrepôt est une **page de visibilité et de contrôle**. Elle n'effectue pas elle-même les calculs FIFO mais présente les données d'inventaire utilisées par le moteur FIFO. Les utilisateurs peuvent ainsi comprendre, valider et dépanner la séquence d'inventaire qui pilotera la génération des préparations d'entrepôt et la consommation des stocks.
+
+---
+
+[Index](./index.html)
