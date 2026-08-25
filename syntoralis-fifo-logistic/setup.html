@@ -110,9 +110,9 @@
 
 <h2 id="purpose">Purpose</h2>
 
-<p>The FIFO Setup controls the activation and operation of the Syntoralis FIFO Logistic extension. It provides a centralized configuration point for enabling FIFO warehouse management and works in conjunction with the FIFO settings available on individual Locations. 【1-9e0dca】</p>
+<p>The FIFO Setup controls the activation and operation of the Syntoralis FIFO Logistic extension. It provides a centralized configuration point for enabling FIFO warehouse management and works in conjunction with the FIFO settings available on individual Locations.</p>
 
-<p>The objective is to ensure inventory is consumed according to the oldest stock-in movement date and time while maintaining compatibility with standard Business Central warehouse processes. 【1-9e0dca】</p>
+<p>The objective is to ensure inventory is consumed according to the oldest stock-in movement date and time while maintaining compatibility with standard Business Central warehouse processes.</p>
 
 <hr />
 
@@ -124,16 +124,16 @@
 
 <p>The <strong>Activate</strong> field is the global activation switch of the FIFO solution. It determines whether the FIFO engine is operational within the company.</p>
 
-<p>When disabled, the extension remains installed, but FIFO processing is not executed. Standard Business Central warehouse behavior continues to apply. When enabled, FIFO functionality becomes available for locations configured to use FIFO stock rotation. 【1-9e0dca】</p>
+<p>When disabled, the extension remains installed, but FIFO processing is not executed. Standard Business Central warehouse behavior continues to apply. When enabled, FIFO functionality becomes available for locations configured to use FIFO stock rotation.</p>
 
 <h3 id="activation-prerequisite">Activation Prerequisite</h3>
 
 <p>Before the <strong>Activate</strong> field can be enabled, the FIFO initialization must be completed for all applicable locations.</p>
 
-<p>The FIFO Setup activation is only intended to be performed once the warehouse data has been prepared and all locations have been successfully processed through the <strong>Recompute</strong> function. This ensures that FIFO data is initialized and ready for operational use. 【1-9e0dca】</p>
+<p>The FIFO Setup activation is only intended to be performed once the warehouse data has been prepared and all locations have been successfully processed through the <strong>Recompute</strong> function. This ensures that FIFO data is initialized and ready for operational use.</p>
 
 <blockquote>
-  <p><strong>Important:</strong> The Recompute process must be completed on all locations before activating the FIFO solution. The details of the Recompute process are documented separately. 【1-9e0dca】</p>
+  <p><strong>Important:</strong> The Recompute process must be completed on all locations before activating the FIFO solution. The details of the Recompute process are documented separately.</p>
 </blockquote>
 
 <h3 id="business-role">Business Role</h3>
@@ -144,16 +144,16 @@
   <li>Activate the FIFO solution during go-live.</li>
   <li>Temporarily suspend FIFO processing for maintenance purposes.</li>
   <li>Control company-wide deployment of the FIFO engine.</li>
-  <li>Enable FIFO warehouse operations once initialization activities have been completed. 【1-9e0dca】</li>
+  <li>Enable FIFO warehouse operations once initialization activities have been completed.</li>
 </ul>
 
 <h3 id="design-rule-fs000">Design Rule FS000</h3>
 
-<p>The <strong>Activate</strong> field must be enabled before any warehouse can operate under FIFO stock-in movement logic. It acts as the application-level prerequisite for all FIFO processes. 【1-9e0dca】</p>
+<p>The <strong>Activate</strong> field must be enabled before any warehouse can operate under FIFO stock-in movement logic. It acts as the application-level prerequisite for all FIFO processes.</p>
 
 <h3 id="design-rule-fs000a">Design Rule FS000A</h3>
 
-<p>The <strong>Activate</strong> field must remain disabled until FIFO initialization has been completed through the Recompute function for all locations included in the FIFO scope. 【1-9e0dca】</p>
+<p>The <strong>Activate</strong> field must remain disabled until FIFO initialization has been completed through the Recompute function for all locations included in the FIFO scope.</p>
 
 <hr />
 
@@ -163,7 +163,7 @@
 
 <h3 id="purpose-2">Purpose</h3>
 
-<p>The <strong>Pick Stock-in Movement</strong> field acts as the location-level activation switch. It determines whether FIFO stock rotation is applied to a specific warehouse location. 【1-9e0dca】</p>
+<p>The <strong>Pick Stock-in Movement</strong> field acts as the location-level activation switch. It determines whether FIFO stock rotation is applied to a specific warehouse location.</p>
 
 <h3 id="design-rule-fs001">Design Rule FS001</h3>
 
@@ -174,7 +174,7 @@ AND
 Location.Pick Stock-in Movement = TRUE
 </code></pre></div></div>
 
-<p>If either condition is not met, standard Business Central warehouse logic is used. 【1-9e0dca】</p>
+<p>If either condition is not met, standard Business Central warehouse logic is used.</p>
 
 <hr />
 
@@ -187,7 +187,7 @@ Location.Pick Stock-in Movement = TRUE
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Pick Bin Policy = Bin Ranking
 </code></pre></div></div>
 
-<p>This ensures that warehouse picks are generated according to FIFO priorities rather than standard bin selection methods. 【1-9e0dca】</p>
+<p>This ensures that warehouse picks are generated according to FIFO priorities rather than standard bin selection methods.</p>
 
 <hr />
 
@@ -198,7 +198,7 @@ Location.Pick Stock-in Movement = TRUE
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Default Bin Selection
 </code></pre></div></div>
 
-<p>This prevents warehouse transactions from bypassing FIFO inventory rotation through predefined default-bin rules. 【1-9e0dca】</p>
+<p>This prevents warehouse transactions from bypassing FIFO inventory rotation through predefined default-bin rules.</p>
 
 <hr />
 
@@ -212,7 +212,7 @@ Location.Pick Stock-in Movement = TRUE
   <li>Dedicated Bins</li>
 </ul>
 
-<p>These warehouse configurations can conflict with FIFO stock rotation principles and therefore are not supported. 【1-9e0dca】</p>
+<p>These warehouse configurations can conflict with FIFO stock rotation principles and therefore are not supported.</p>
 
 <hr />
 
@@ -225,7 +225,7 @@ Location.Pick Stock-in Movement = TRUE
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LIS-LOG-FIFO Stock-in DateTime
 </code></pre></div></div>
 
-<p>This field stores the timestamp of the stock-in movement associated with the inventory available in the bin. It serves as the primary FIFO sorting criterion used during warehouse pick generation. 【1-9e0dca】</p>
+<p>This field stores the timestamp of the stock-in movement associated with the inventory available in the bin. It serves as the primary FIFO sorting criterion used during warehouse pick generation.</p>
 
 <h3 id="fifo-sorting-rule">FIFO Sorting Rule</h3>
 
@@ -234,7 +234,7 @@ Location.Pick Stock-in Movement = TRUE
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Oldest Stock-in DateTime First
 </code></pre></div></div>
 
-<p>This guarantees FIFO stock consumption regardless of the physical bin where inventory is stored. 【1-9e0dca】</p>
+<p>This guarantees FIFO stock consumption regardless of the physical bin where inventory is stored.</p>
 
 <hr />
 
@@ -247,7 +247,7 @@ LIS-LOG-FIFO RecomputeDateTime
 LIS-LOG-FIFO Re. MaxEntryNo
 </code></pre></div></div>
 
-<p>These fields are used internally to monitor FIFO initialization status. 【1-9e0dca】</p>
+<p>These fields are used internally to monitor FIFO initialization status.</p>
 
 <hr />
 
@@ -296,8 +296,6 @@ LIS-LOG-FIFO Re. MaxEntryNo
   <li>Default Bins</li>
 </ul>
 
-<p>【1-9e0dca】</p>
-
 <hr />
 
 <h1 id="configuration-flow">Configuration Flow</h1>
@@ -345,7 +343,7 @@ Enable FIFO processing for a specific warehouse location.</p>
   </li>
 </ol>
 
-<p>Only when all prerequisites are met does the system apply FIFO stock consumption rules based on Stock-in DateTime and generate FIFO-compliant warehouse picks. 【1-9e0dca】</p>
+<p>Only when all prerequisites are met does the system apply FIFO stock consumption rules based on Stock-in DateTime and generate FIFO-compliant warehouse picks.</p>
 
 <p><a href="./index.html">Index</a></p>
 
