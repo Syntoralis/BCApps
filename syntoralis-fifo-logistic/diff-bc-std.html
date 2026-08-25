@@ -24,7 +24,7 @@
     <meta name="twitter:title" content="Syntoralis Numérique responsable, éthique, conforme">
     <meta name="twitter:description" content="Progiciels et accompagnement numérique responsable pour entreprises et particuliers. Conformité, RSE, sobriété, accessibilité.">
     <meta name="twitter:image" content="https://syntoralis.eu/img/logo-syntoralis.rs.png">
-    <title>Welcome to BC Syntoralis FIFO Logistic Helper</title>
+    <title>Différences avec le FIFO standard de Business Central</title>
     <link rel="stylesheet" href="/BCApps/assets/css/style.css">
     <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
@@ -146,116 +146,200 @@
           <div class="row">
             <div class="col">
               <div class="card">
-                <h2 id="scope">Scope</h2>
+                <h1 id="différences-avec-le-fifo-standard-de-business-central">Différences avec le FIFO standard de Business Central</h1>
 
-<p>The FIFO pick process applies to all outbound stock processes that use Business Central’s standard warehouse management mechanisms.</p>
+<h2 id="fifo-standard-de-business-central">FIFO standard de Business Central</h2>
 
-<p>The FIFO engine only intervenes on locations configured to use FIFO and replaces the standard location-based selection logic with a selection based on the actual stock-in date.</p>
+<p>Dans Business Central standard, la valorisation FIFO est principalement gérée via les <strong>Entrées de journal d’article</strong> et la <strong>valorisation des stocks</strong>.</p>
 
-<h2 id="covered-processes">Covered processes</h2>
+<p>La méthode de coût FIFO standard détermine la valeur de la consommation de stock à partir des entrées d’inventaire les plus anciennes, mais elle ne garantit pas que les prélèvements d’entrepôt consomment physiquement le stock le plus ancien disponible dans l’entrepôt.</p>
 
-<p>The feature covers the following processes:</p>
+<p>Les activités d’entrepôt reposent généralement sur :</p>
 
-<h3 id="warehouse-pick">Warehouse Pick</h3>
+<ul>
+  <li>Classement des bacs</li>
+  <li>Types de bacs</li>
+  <li>Bacs fixes</li>
+  <li>Bacs dédiés</li>
+  <li>FEFO (First Expired First Out)</li>
+  <li>Algorithmes standard de sélection d’entrepôt</li>
+</ul>
 
-<p>When a warehouse pick is created, the system selects stock according to FIFO order and generates the corresponding pick lines.</p>
-
-<h3 id="inventory-pick">Inventory Pick</h3>
-
-<p>When an inventory pick is created, the FIFO engine determines quantities to pick based on available FIFO layers.</p>
-
-<h3 id="inventory-movement">Inventory Movement</h3>
-
-<p>Movement proposals use FIFO information to select the oldest available stock.</p>
-
-<h3 id="replenishment-for-pick-zones">Replenishment for pick zones</h3>
-
-<p>When the system generates replenishment movements, source stock selection respects FIFO rules.</p>
-
-<h3 id="lot-tracked-items">Lot-tracked items</h3>
-
-<p>The FIFO engine handles lot-tracked items and selects lots in order of their stock-in date.</p>
-
-<h3 id="serial-tracked-items">Serial-tracked items</h3>
-
-<p>The FIFO engine handles serial-tracked items and selects serial numbers in FIFO order.</p>
-
-<h3 id="items-with-expiration-dates">Items with expiration dates</h3>
-
-<p>The FIFO engine remains compatible with Business Central’s standard FEFO (First Expired First Out) mechanisms when expiration dates are used.</p>
+<p>En conséquence, le stock physiquement prélevé en entrepôt peut différer de la couche d’inventaire utilisée pour la valorisation financière FIFO.</p>
 
 <hr />
 
-<h2 id="excluded-processes">Excluded processes</h2>
+<h2 id="approche-syntoralis-fifo-logistic">Approche Syntoralis FIFO Logistic</h2>
 
-<p>The following features are not covered by the FIFO engine:</p>
+<p>La solution Syntoralis FIFO introduit une couche de <strong>gestion FIFO physique</strong> au niveau entrepôt.</p>
 
-<h3 id="warehouse-receipts">Warehouse receipts</h3>
+<p>Plutôt que de s’appuyer uniquement sur les écritures de valorisation, la solution enregistre la date et l’heure réelles du mouvement d’entrée en stock et utilise cette information lors de la création des prélèvements d’entrepôt.</p>
 
-<p>Goods receipts remain managed by Business Central’s standard functionality. The FIFO engine only records the information needed for FIFO tracking.</p>
+<p>L’inventaire est donc consommé selon :</p>
 
-<h3 id="stock-adjustments">Stock adjustments</h3>
-
-<p>Item journals and inventory adjustments are not driven by the FIFO pick engine.</p>
-
-<h3 id="cost-calculations">Cost calculations</h3>
-
-<p>The feature does not affect item valuation methods in Business Central.</p>
-
-<h3 id="stock-reservations">Stock reservations</h3>
-
-<p>Standard reservation mechanisms continue to operate independently of the FIFO engine.</p>
-
-<h3 id="item-availability">Item availability</h3>
-
-<p>Standard availability calculations are not changed by the FIFO solution.</p>
-
-<hr />
-
-<h2 id="affected-functional-objects">Affected functional objects</h2>
-
-<p>The FIFO pick process primarily acts on the following entities:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Location
-Bin Content
-Warehouse Entry
-Warehouse Activity Header
-Warehouse Activity Line
-Warehouse Pick
-Inventory Pick
-Inventory Movement
-Lot No.
-Serial No.
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Plus ancienne date/heure du mouvement d'entrée en stock en premier
 </code></pre></div></div>
 
+<p>quelle que soit la position du stock dans le bac.</p>
+
 <hr />
 
-<h2 id="expected-outcome">Expected outcome</h2>
+<h2 id="principales-différences">Principales différences</h2>
 
-<p>Regardless of the generated document, the system must always:</p>
+<h3 id="critère-fifo">Critère FIFO</h3>
+
+<h4 id="business-central-standard">Business Central standard</h4>
+
+<p>Le FIFO s’appuie sur :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Chronologie des Item Ledger Entries
+</code></pre></div></div>
+
+<p>principalement pour la valorisation et la comptabilité.</p>
+
+<h4 id="syntoralis-fifo">Syntoralis FIFO</h4>
+
+<p>Le FIFO s’appuie sur :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Date/heure d'entrée en stock (warehouse Stock-in DateTime)
+</code></pre></div></div>
+
+<p>pour l’exécution physique en entrepôt.</p>
+
+<hr />
+
+<h3 id="sélection-pour-les-prélèvements-dentrepôt">Sélection pour les prélèvements d’entrepôt</h3>
+
+<h4 id="business-central-standard-1">Business Central standard</h4>
+
+<p>Les prélèvements sont générés selon la configuration d’entrepôt :</p>
 
 <ul>
-  <li>Identify available stock.</li>
-  <li>Determine the oldest FIFO layer.</li>
-  <li>Consume quantities in FIFO order.</li>
-  <li>Automatically split lines when necessary.</li>
-  <li>Correctly assign lots and serial numbers.</li>
-  <li>Update remaining FIFO quantities.</li>
+  <li>Classement des bacs</li>
+  <li>Bacs fixes</li>
+  <li>Bacs dédiés</li>
+  <li>Bacs par défaut</li>
+  <li>Règles FEFO</li>
 </ul>
 
-<p>This produces a pick document compliant with FIFO rules without changing standard operational processes.</p>
+<p>Le stock le plus ancien n’est pas nécessairement sélectionné.</p>
 
-<h2 id="detailed-section">Detailed section</h2>
+<h4 id="syntoralis-fifo-1">Syntoralis FIFO</h4>
+
+<p>Les prélèvements sont générés selon :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Plus ancienne date/heure d'entrée en stock disponible
+</code></pre></div></div>
+
+<p>garantissant une véritable rotation FIFO physique en entrepôt.</p>
+
+<hr />
+
+<h3 id="visibilité-de-linventaire">Visibilité de l’inventaire</h3>
+
+<h4 id="business-central-standard-2">Business Central standard</h4>
+
+<p>Les utilisateurs ont une visibilité sur :</p>
+
 <ul>
-  <li><a href="./diff-bc-std-en.html">Differences from Standard Business Central FIFO</a></li>
-  <li><a href="./pick-en-process.html">Pick Process</a></li>
-  <li><a href="./whse-inventory-en.html">Warehouse Inventory Page</a></li>
-  <li><a href="./setup-en.html">FIFO Setup</a></li>
-  <li><a href="./recompute-process.html">Recompute Process</a></li>
+  <li>Item Ledger Entries</li>
+  <li>Warehouse Entries</li>
+  <li>Bin Contents</li>
 </ul>
 
-<h2 id="download-section">Download section</h2>
-<p><a href="https://github.com/Syntoralis/BCApps/tree/main/AppSource/Syntoralis-fifo-logistic">MarketPlace App</a></p>
+<p>Cependant, la séquence FIFO exacte utilisée lors de la consommation en entrepôt n’est pas directement visible.</p>
+
+<h4 id="syntoralis-fifo-2">Syntoralis FIFO</h4>
+
+<p>La page Inventaire d’entrepôt fournit une visibilité sur :</p>
+
+<ul>
+  <li>la Stock-in DateTime</li>
+  <li>l’ordre FIFO</li>
+  <li>l’inventaire FIFO restant</li>
+</ul>
+
+<p>permettant aux utilisateurs de comprendre précisément quel stock sera consommé en premier.</p>
+
+<hr />
+
+<h3 id="suivi-fifo">Suivi FIFO</h3>
+
+<h4 id="business-central-standard-3">Business Central standard</h4>
+
+<p>Il n’existe pas de couche FIFO maintenue au niveau entrepôt.</p>
+
+<p>Les Warehouse Entries ne conservent pas des quantités dédiées FIFO.</p>
+
+<h4 id="syntoralis-fifo-3">Syntoralis FIFO</h4>
+
+<p>Les Warehouse Entries conservent :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Open
+Remaining Qty
+</code></pre></div></div>
+
+<p>ce qui permet au système de construire et maintenir des couches de consommation FIFO pour le traitement d’entrepôt.</p>
+
+<hr />
+
+<h3 id="initialisation">Initialisation</h3>
+
+<h4 id="business-central-standard-4">Business Central standard</h4>
+
+<p>Pas de processus d’initialisation requis.</p>
+
+<h4 id="syntoralis-fifo-4">Syntoralis FIFO</h4>
+
+<p>Une initialisation FIFO doit être réalisée via la fonction Recompute avant d’activer la solution.</p>
+
+<p>Cela garantit que les couches FIFO sont correctement reconstituées à partir des transactions historiques d’entrepôt.</p>
+
+<hr />
+
+<h3 id="gestion-des-lots-et-numéros-de-série">Gestion des lots et numéros de série</h3>
+
+<h4 id="business-central-standard-5">Business Central standard</h4>
+
+<p>La sélection des lots et numéros dépend de la logique standard d’entrepôt et de suivi des articles.</p>
+
+<h4 id="syntoralis-fifo-5">Syntoralis FIFO</h4>
+
+<p>La sélection des lots et numéros suit les règles FIFO fondées sur la date/heure du mouvement d’entrée, garantissant que l’inventaire tracé est consommé dans la même séquence que l’inventaire non tracé.</p>
+
+<hr />
+
+<h3 id="intégration-fefo">Intégration FEFO</h3>
+
+<h4 id="business-central-standard-6">Business Central standard</h4>
+
+<p>Le FEFO peut influencer la sélection lorsque des dates d’expiration existent.</p>
+
+<h4 id="syntoralis-fifo-6">Syntoralis FIFO</h4>
+
+<p>La solution intègre une logique de compatibilité dédiée pour éviter les conflits entre le traitement FEFO et le traitement FIFO basé sur les mouvements d’entrée.</p>
+
+<hr />
+
+<h1 id="pourquoi-utiliser-la-page-inventaire-dentrepôt-">Pourquoi utiliser la page Inventaire d’entrepôt ?</h1>
+
+<p>Les pages standard de Business Central permettent de consulter des quantités, mais n’offrent pas une vue directe de la séquence FIFO réelle qui sera utilisée par les prélèvements.</p>
+
+<p>La page Inventaire d’entrepôt a été introduite pour fournir :</p>
+
+<ul>
+  <li>Visibilité des couches FIFO.</li>
+  <li>Visibilité des Stock-in DateTime.</li>
+  <li>Validation de l’ordre FIFO.</li>
+  <li>Traçabilité des décisions de consommation en entrepôt.</li>
+  <li>Support opérationnel pour l’initialisation et le dépannage FIFO.</li>
+</ul>
+
+<p>Elle constitue donc le pendant opérationnel du moteur FIFO et apporte une transparence absente des fonctionnalités standard de Business Central.</p>
+
+<hr />
+
+<p><a href="./index.html">Index</a></p>
 
               </div>
             </div>

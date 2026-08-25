@@ -146,12 +146,112 @@
           <div class="row">
             <div class="col">
               <div class="card">
-                <p>En cours</p>
+                <h1 id="périmètre-couvert">Périmètre couvert</h1>
+
+<p>Le processus de prélèvement FIFO s’applique à l’ensemble des processus de sortie de stock utilisant les mécanismes standards de gestion d’entrepôt de Business Central.</p>
+
+<p>Le moteur FIFO intervient uniquement sur les emplacements configurés pour utiliser la fonctionnalité FIFO et remplace la logique standard de sélection des stocks par une sélection basée sur la date réelle d’entrée en stock.</p>
+
+<h2 id="processus-couverts">Processus couverts</h2>
+
+<p>La fonctionnalité couvre les processus suivants :</p>
+
+<h3 id="prélèvement-entrepôt-warehouse-pick">Prélèvement entrepôt (<em>Warehouse Pick</em>)</h3>
+
+<p>Lors de la création d’un prélèvement entrepôt, le système sélectionne les stocks selon leur ordre FIFO et génère les lignes de prélèvement correspondantes.</p>
+
+<h3 id="prélèvement-inventaire-inventory-pick">Prélèvement inventaire (<em>Inventory Pick</em>)</h3>
+
+<p>Lorsqu’un prélèvement inventaire est créé, le moteur FIFO détermine les quantités à prélever selon les couches FIFO disponibles.</p>
+
+<h3 id="mouvement-inventaire-inventory-movement">Mouvement inventaire (<em>Inventory Movement</em>)</h3>
+
+<p>Les propositions de mouvements utilisent les informations FIFO afin de sélectionner les stocks les plus anciens disponibles.</p>
+
+<h3 id="réapprovisionnement-des-zones-de-prélèvement">Réapprovisionnement des zones de prélèvement</h3>
+
+<p>Lorsque le système génère des mouvements de réapprovisionnement, la sélection des stocks sources respecte les règles FIFO.</p>
+
+<h3 id="articles-suivis-par-lot">Articles suivis par lot</h3>
+
+<p>Le moteur FIFO gère les articles suivis par lot et sélectionne les lots dans l’ordre de leur entrée en stock.</p>
+
+<h3 id="articles-suivis-par-numéro-de-série">Articles suivis par numéro de série</h3>
+
+<p>Le moteur FIFO gère les articles suivis par numéro de série et sélectionne les numéros de série dans l’ordre FIFO.</p>
+
+<h3 id="articles-avec-date-dexpiration">Articles avec date d’expiration</h3>
+
+<p>Le moteur FIFO reste compatible avec les mécanismes FEFO standards de Business Central lorsque des dates d’expiration sont utilisées.</p>
+
+<hr />
+
+<h2 id="processus-exclus">Processus exclus</h2>
+
+<p>Les fonctionnalités suivantes ne sont pas couvertes par le moteur FIFO :</p>
+
+<h3 id="réceptions-entrepôt">Réceptions entrepôt</h3>
+
+<p>La réception des marchandises reste gérée par les fonctionnalités standards de Business Central. Le moteur FIFO se limite à enregistrer les informations nécessaires au suivi FIFO.</p>
+
+<h3 id="ajustements-de-stock">Ajustements de stock</h3>
+
+<p>Les journaux article et les ajustements d’inventaire ne sont pas pilotés par le moteur de prélèvement FIFO.</p>
+
+<h3 id="calcul-des-coûts">Calcul des coûts</h3>
+
+<p>La fonctionnalité n’impacte pas les méthodes de valorisation des articles dans Business Central.</p>
+
+<h3 id="réservation-des-stocks">Réservation des stocks</h3>
+
+<p>Les mécanismes standards de réservation continuent de fonctionner indépendamment du moteur FIFO.</p>
+
+<h3 id="disponibilité-article">Disponibilité article</h3>
+
+<p>Les calculs de disponibilité standard ne sont pas modifiés par la solution FIFO.</p>
+
+<hr />
+
+<h2 id="objets-fonctionnels-concernés">Objets fonctionnels concernés</h2>
+
+<p>Le processus de prélèvement FIFO intervient principalement sur les entités suivantes :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Location
+Bin Content
+Warehouse Entry
+Warehouse Activity Header
+Warehouse Activity Line
+Warehouse Pick
+Inventory Pick
+Inventory Movement
+Lot No.
+Serial No.
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="résultat-attendu">Résultat attendu</h2>
+
+<p>Quel que soit le document généré, le système doit toujours :</p>
+
+<ul>
+  <li>Identifier les stocks disponibles.</li>
+  <li>Déterminer la couche FIFO la plus ancienne.</li>
+  <li>Consommer les quantités dans l’ordre FIFO.</li>
+  <li>Fractionner automatiquement les lignes lorsque nécessaire.</li>
+  <li>Affecter correctement les lots et numéros de série.</li>
+  <li>Mettre à jour les quantités FIFO restantes.</li>
+</ul>
+
+<p>L’utilisateur obtient ainsi un document de prélèvement conforme aux règles FIFO sans modification des processus opérationnels standards.</p>
 
 <h2 id="pour-en-savoir-plus">Pour en savoir plus</h2>
 <ul>
-  <li><a href="./setup.html">Paramétrage FIFO</a></li>
+  <li><a href="./diff-bc-std.html">Différences avec le FIFO standard de Business Central</a></li>
+  <li><a href="./pick-process.html">Processus de prélèvement FIFO</a></li>
   <li><a href="./whse-inventory.html">Page Inventaire d’entrepôt</a></li>
+  <li><a href="./setup.html">Paramétrage FIFO</a></li>
+  <li><a href="./recompute-process.html">Processus de Recalcul FIFO</a></li>
 </ul>
 
 <h2 id="zone-de-téléchargement">Zone de téléchargement</h2>

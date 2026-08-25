@@ -24,7 +24,7 @@
     <meta name="twitter:title" content="Syntoralis Numérique responsable, éthique, conforme">
     <meta name="twitter:description" content="Progiciels et accompagnement numérique responsable pour entreprises et particuliers. Conformité, RSE, sobriété, accessibilité.">
     <meta name="twitter:image" content="https://syntoralis.eu/img/logo-syntoralis.rs.png">
-    <title>Welcome to BC Syntoralis FIFO Logistic Helper</title>
+    <title>Syntoralis FIFO Logistic - Processus de Prélèvement FIFO</title>
     <link rel="stylesheet" href="/BCApps/assets/css/style.css">
     <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
@@ -146,116 +146,371 @@
           <div class="row">
             <div class="col">
               <div class="card">
-                <h2 id="scope">Scope</h2>
+                <h1 id="processus-de-prélèvement-fifo">Processus de Prélèvement FIFO</h1>
 
-<p>The FIFO pick process applies to all outbound stock processes that use Business Central’s standard warehouse management mechanisms.</p>
+<h2 id="objectif">Objectif</h2>
 
-<p>The FIFO engine only intervenes on locations configured to use FIFO and replaces the standard location-based selection logic with a selection based on the actual stock-in date.</p>
+<p>Le processus de prélèvement FIFO permet au système de sélectionner automatiquement les stocks selon leur ancienneté afin de garantir une consommation conforme au principe :</p>
 
-<h2 id="covered-processes">Covered processes</h2>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Premier Entré
+Premier Sorti
+(First In, First Out)
+</code></pre></div></div>
 
-<p>The feature covers the following processes:</p>
+<p>Contrairement au comportement standard de Business Central, qui s’appuie principalement sur les règles de sélection d’emplacements et les priorités de stockage, la solution Syntoralis FIFO Logistic utilise la date réelle d’entrée en stock pour déterminer le stock devant être prélevé en priorité.</p>
 
-<h3 id="warehouse-pick">Warehouse Pick</h3>
-
-<p>When a warehouse pick is created, the system selects stock according to FIFO order and generates the corresponding pick lines.</p>
-
-<h3 id="inventory-pick">Inventory Pick</h3>
-
-<p>When an inventory pick is created, the FIFO engine determines quantities to pick based on available FIFO layers.</p>
-
-<h3 id="inventory-movement">Inventory Movement</h3>
-
-<p>Movement proposals use FIFO information to select the oldest available stock.</p>
-
-<h3 id="replenishment-for-pick-zones">Replenishment for pick zones</h3>
-
-<p>When the system generates replenishment movements, source stock selection respects FIFO rules.</p>
-
-<h3 id="lot-tracked-items">Lot-tracked items</h3>
-
-<p>The FIFO engine handles lot-tracked items and selects lots in order of their stock-in date.</p>
-
-<h3 id="serial-tracked-items">Serial-tracked items</h3>
-
-<p>The FIFO engine handles serial-tracked items and selects serial numbers in FIFO order.</p>
-
-<h3 id="items-with-expiration-dates">Items with expiration dates</h3>
-
-<p>The FIFO engine remains compatible with Business Central’s standard FEFO (First Expired First Out) mechanisms when expiration dates are used.</p>
+<p>L’objectif est de garantir une rotation optimale des stocks tout en conservant la compatibilité avec les fonctionnalités standards de gestion d’entrepôt.</p>
 
 <hr />
 
-<h2 id="excluded-processes">Excluded processes</h2>
+<h1 id="principe-général">Principe général</h1>
 
-<p>The following features are not covered by the FIFO engine:</p>
+<p>Lors de la création d’un prélèvement entrepôt, le moteur FIFO analyse les stocks disponibles et identifie les quantités les plus anciennes à consommer.</p>
 
-<h3 id="warehouse-receipts">Warehouse receipts</h3>
+<p>Le système s’appuie sur le champ :</p>
 
-<p>Goods receipts remain managed by Business Central’s standard functionality. The FIFO engine only records the information needed for FIFO tracking.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LIS-LOG-FIFO Stock-in DateTime
+</code></pre></div></div>
 
-<h3 id="stock-adjustments">Stock adjustments</h3>
+<p>qui représente la date et l’heure d’entrée en stock de la marchandise disponible.</p>
 
-<p>Item journals and inventory adjustments are not driven by the FIFO pick engine.</p>
-
-<h3 id="cost-calculations">Cost calculations</h3>
-
-<p>The feature does not affect item valuation methods in Business Central.</p>
-
-<h3 id="stock-reservations">Stock reservations</h3>
-
-<p>Standard reservation mechanisms continue to operate independently of the FIFO engine.</p>
-
-<h3 id="item-availability">Item availability</h3>
-
-<p>Standard availability calculations are not changed by the FIFO solution.</p>
+<p>Les stocks sont ensuite triés par ordre croissant afin de sélectionner les quantités les plus anciennes avant les plus récentes.</p>
 
 <hr />
 
-<h2 id="affected-functional-objects">Affected functional objects</h2>
+<h1 id="conditions-dactivation">Conditions d’activation</h1>
 
-<p>The FIFO pick process primarily acts on the following entities:</p>
+<p>Le processus FIFO est exécuté uniquement lorsque :</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Location
-Bin Content
-Warehouse Entry
-Warehouse Activity Header
-Warehouse Activity Line
-Warehouse Pick
-Inventory Pick
-Inventory Movement
-Lot No.
-Serial No.
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FIFO Setup.Activate = TRUE
+</code></pre></div></div>
+
+<p>et</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Location.Pick Stock-in Movement = TRUE
+</code></pre></div></div>
+
+<p>Si l’une de ces conditions n’est pas remplie, Business Central applique son comportement standard.</p>
+
+<hr />
+
+<h1 id="déclenchement-du-processus">Déclenchement du processus</h1>
+
+<p>Le moteur FIFO intervient lors de la création des documents suivants :</p>
+
+<ul>
+  <li>Prélèvement entrepôt (<em>Warehouse Pick</em>)</li>
+  <li>Prélèvement inventaire (<em>Inventory Pick</em>)</li>
+  <li>Mouvement inventaire (<em>Inventory Movement</em>)</li>
+  <li>Réapprovisionnement d’emplacement</li>
+  <li>Activités entrepôt générées automatiquement</li>
+</ul>
+
+<hr />
+
+<h1 id="recherche-du-stock-disponible">Recherche du stock disponible</h1>
+
+<h2 id="étape-1---identification-des-stocks">Étape 1 - Identification des stocks</h2>
+
+<p>Le système identifie tous les contenus d’emplacement correspondant :</p>
+
+<ul>
+  <li>à l’article demandé ;</li>
+  <li>à l’emplacement concerné ;</li>
+  <li>à l’unité de stockage concernée ;</li>
+  <li>aux éventuels critères de lot ou de numéro de série.</li>
+</ul>
+
+<p>Seules les quantités disponibles sont retenues.</p>
+
+<hr />
+
+<h2 id="étape-2---tri-fifo">Étape 2 - Tri FIFO</h2>
+
+<p>Les enregistrements sont triés selon :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Stock-in DateTime
+</code></pre></div></div>
+
+<p>dans l’ordre croissant.</p>
+
+<p>Exemple :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bin A - 01/01/2025 08:00
+Bin B - 03/01/2025 10:15
+Bin C - 10/01/2025 15:30
+</code></pre></div></div>
+
+<p>Ordre de prélèvement :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Bin A
+2. Bin B
+3. Bin C
 </code></pre></div></div>
 
 <hr />
 
-<h2 id="expected-outcome">Expected outcome</h2>
+<h1 id="allocation-des-quantités">Allocation des quantités</h1>
 
-<p>Regardless of the generated document, the system must always:</p>
+<h2 id="cas-1---quantité-disponible-suffisante">Cas 1 - Quantité disponible suffisante</h2>
+
+<p>Si le premier emplacement contient la quantité nécessaire :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Besoin = 50
+Bin A = 100
+</code></pre></div></div>
+
+<p>Le système crée une seule ligne de prélèvement :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bin A = 50
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="cas-2---quantité-répartie-sur-plusieurs-couches-fifo">Cas 2 - Quantité répartie sur plusieurs couches FIFO</h2>
+
+<p>Si la quantité nécessaire est répartie sur plusieurs couches FIFO :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Besoin = 100
+
+Bin A = 40
+Bin B = 30
+Bin C = 80
+</code></pre></div></div>
+
+<p>Le système crée automatiquement :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ligne 1 = Bin A = 40
+Ligne 2 = Bin B = 30
+Ligne 3 = Bin C = 30
+</code></pre></div></div>
+
+<p>Les couches les plus anciennes sont toujours consommées intégralement avant les suivantes.</p>
+
+<hr />
+
+<h1 id="gestion-des-lots">Gestion des lots</h1>
+
+<h2 id="principe">Principe</h2>
+
+<p>Lorsque l’article est géré par lot, le moteur FIFO applique les règles FIFO à l’intérieur des stocks disponibles.</p>
+
+<p>Le système :</p>
 
 <ul>
-  <li>Identify available stock.</li>
-  <li>Determine the oldest FIFO layer.</li>
-  <li>Consume quantities in FIFO order.</li>
-  <li>Automatically split lines when necessary.</li>
-  <li>Correctly assign lots and serial numbers.</li>
-  <li>Update remaining FIFO quantities.</li>
+  <li>identifie les lots disponibles ;</li>
+  <li>trie les lots selon leur date d’entrée en stock ;</li>
+  <li>sélectionne les lots les plus anciens ;</li>
+  <li>affecte automatiquement les informations de suivi.</li>
 </ul>
 
-<p>This produces a pick document compliant with FIFO rules without changing standard operational processes.</p>
+<hr />
 
-<h2 id="detailed-section">Detailed section</h2>
+<h2 id="exemple">Exemple</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Lot LOT001 = 10/01/2025
+Lot LOT002 = 20/01/2025
+Lot LOT003 = 01/02/2025
+</code></pre></div></div>
+
+<p>Ordre de consommation :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LOT001
+LOT002
+LOT003
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="gestion-des-numéros-de-série">Gestion des numéros de série</h1>
+
+<h2 id="principe-1">Principe</h2>
+
+<p>Pour les articles suivis par numéro de série :</p>
+
 <ul>
-  <li><a href="./diff-bc-std-en.html">Differences from Standard Business Central FIFO</a></li>
-  <li><a href="./pick-en-process.html">Pick Process</a></li>
-  <li><a href="./whse-inventory-en.html">Warehouse Inventory Page</a></li>
-  <li><a href="./setup-en.html">FIFO Setup</a></li>
-  <li><a href="./recompute-process.html">Recompute Process</a></li>
+  <li>chaque numéro de série possède sa propre couche FIFO ;</li>
+  <li>les numéros de série sont triés selon leur date d’entrée ;</li>
+  <li>les plus anciens sont sélectionnés en priorité.</li>
 </ul>
 
-<h2 id="download-section">Download section</h2>
-<p><a href="https://github.com/Syntoralis/BCApps/tree/main/AppSource/Syntoralis-fifo-logistic">MarketPlace App</a></p>
+<hr />
+
+<h2 id="contrôle-des-doublons">Contrôle des doublons</h2>
+
+<p>Le système vérifie qu’un numéro de série ou un lot ne soit pas affecté plusieurs fois au même prélèvement.</p>
+
+<p>Cette validation évite :</p>
+
+<ul>
+  <li>les doublons de suivi ;</li>
+  <li>les incohérences de quantité ;</li>
+  <li>les erreurs lors de l’enregistrement du prélèvement.</li>
+</ul>
+
+<hr />
+
+<h1 id="compatibilité-fefo">Compatibilité FEFO</h1>
+
+<h2 id="principe-2">Principe</h2>
+
+<p>Pour les articles utilisant également une logique FEFO (<em>First Expired First Out</em>), le moteur FIFO conserve la compatibilité avec les règles standard de gestion des dates d’expiration.</p>
+
+<p>Les articles incompatibles avec la sélection FEFO sont automatiquement exclus afin d’éviter tout conflit de logique.</p>
+
+<hr />
+
+<h1 id="mise-à-jour-des-couches-fifo">Mise à jour des couches FIFO</h1>
+
+<p>Après création du prélèvement :</p>
+
+<ul>
+  <li>les quantités restantes sont recalculées ;</li>
+  <li>les couches FIFO consommées sont mises à jour ;</li>
+  <li>les couches totalement consommées sont fermées ;</li>
+  <li>les informations du stock disponible sont actualisées.</li>
+</ul>
+
+<p>Exemple :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Avant prélèvement :
+
+Entrée 1 = 100
+Remaining Qty = 100
+
+Prélèvement = 60
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Remaining Qty = 40
+Open = TRUE
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="cas-particuliers">Cas particuliers</h1>
+
+<h2 id="quantité-insuffisante">Quantité insuffisante</h2>
+
+<p>Si le stock disponible est insuffisant :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Besoin = 100
+Disponible = 80
+</code></pre></div></div>
+
+<p>Le système prélève les 80 unités disponibles selon l’ordre FIFO.</p>
+
+<p>Le comportement final dépend ensuite des contrôles standards de Business Central.</p>
+
+<hr />
+
+<h2 id="plusieurs-emplacements">Plusieurs emplacements</h2>
+
+<p>Lorsque plusieurs emplacements contiennent du stock :</p>
+
+<ul>
+  <li>le critère FIFO reste prioritaire ;</li>
+  <li>le classement des emplacements n’est utilisé qu’en complément des règles FIFO.</li>
+</ul>
+
+<hr />
+
+<h2 id="plusieurs-articles">Plusieurs articles</h2>
+
+<p>Chaque article possède son propre historique FIFO.</p>
+
+<p>Le traitement est réalisé indépendamment pour chaque article.</p>
+
+<hr />
+
+<h1 id="règles-métier">Règles métier</h1>
+
+<h2 id="pp001">PP001</h2>
+
+<p>Le stock doit toujours être consommé selon la plus ancienne date d’entrée disponible.</p>
+
+<h2 id="pp002">PP002</h2>
+
+<p>Le champ <em>Stock-in DateTime</em> constitue le critère principal de sélection.</p>
+
+<h2 id="pp003">PP003</h2>
+
+<p>Les lignes de prélèvement peuvent être automatiquement fractionnées afin de respecter l’ordre FIFO.</p>
+
+<h2 id="pp004">PP004</h2>
+
+<p>Les quantités restantes des couches FIFO doivent être mises à jour après chaque consommation.</p>
+
+<h2 id="pp005">PP005</h2>
+
+<p>Une couche FIFO dont la quantité restante atteint zéro doit être fermée.</p>
+
+<h2 id="pp006">PP006</h2>
+
+<p>Les lots et numéros de série ne doivent jamais être affectés plusieurs fois au même document de prélèvement.</p>
+
+<h2 id="pp007">PP007</h2>
+
+<p>Le processus FIFO ne doit jamais modifier les mouvements d’origine.</p>
+
+<hr />
+
+<h1 id="processus-détaillé">Processus détaillé</h1>
+
+<pre><code class="language-mermaid">flowchart TD
+
+A[Création du prélèvement]
+--&gt; B[Vérification de l'activation FIFO]
+
+B --&gt; C{FIFO activé ?}
+
+C --&gt;|Non| D[Logique standard Business Central]
+
+C --&gt;|Oui| E[Recherche du stock disponible]
+
+E --&gt; F[Tri par Stock-in DateTime]
+
+F --&gt; G[Détermination de la quantité à prélever]
+
+G --&gt; H{Quantité suffisante ?}
+
+H --&gt;|Oui| I[Création des lignes]
+
+H --&gt;|Non| J[Fractionnement automatique]
+
+J --&gt; I
+
+I --&gt; K[Affectation des lots / numéros de série]
+
+K --&gt; L[Mise à jour des quantités restantes]
+
+L --&gt; M[Fermeture des couches consommées]
+
+M --&gt; N[Création du prélèvement FIFO]
+</code></pre>
+
+<hr />
+
+<h1 id="concept-clé">Concept clé</h1>
+
+<p>Le moteur de prélèvement FIFO constitue le cœur opérationnel de la solution.</p>
+
+<p>Grâce aux informations reconstruites lors du processus de recalcul, il est capable de :</p>
+
+<ul>
+  <li>identifier les couches FIFO disponibles ;</li>
+  <li>sélectionner automatiquement le stock le plus ancien ;</li>
+  <li>gérer les lots et numéros de série ;</li>
+  <li>fractionner les lignes si nécessaire ;</li>
+  <li>garantir une rotation des stocks conforme aux principes FIFO.</li>
+</ul>
+
+<p>Le résultat est un prélèvement entièrement piloté par l’ancienneté réelle du stock plutôt que par sa seule localisation dans l’entrepôt.</p>
+
+<hr />
+
+<p><a href="./index.html">Index</a></p>
 
               </div>
             </div>

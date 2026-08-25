@@ -24,7 +24,7 @@
     <meta name="twitter:title" content="Syntoralis Numérique responsable, éthique, conforme">
     <meta name="twitter:description" content="Progiciels et accompagnement numérique responsable pour entreprises et particuliers. Conformité, RSE, sobriété, accessibilité.">
     <meta name="twitter:image" content="https://syntoralis.eu/img/logo-syntoralis.rs.png">
-    <title>Welcome to BC Syntoralis FIFO Logistic Helper</title>
+    <title>Syntoralis FIFO Logistic - FIFO Pick Process</title>
     <link rel="stylesheet" href="/BCApps/assets/css/style.css">
     <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
@@ -146,116 +146,371 @@
           <div class="row">
             <div class="col">
               <div class="card">
-                <h2 id="scope">Scope</h2>
+                <h1 id="fifo-pick-process">FIFO Pick Process</h1>
 
-<p>The FIFO pick process applies to all outbound stock processes that use Business Central’s standard warehouse management mechanisms.</p>
+<h2 id="purpose">Purpose</h2>
 
-<p>The FIFO engine only intervenes on locations configured to use FIFO and replaces the standard location-based selection logic with a selection based on the actual stock-in date.</p>
+<p>The FIFO pick process enables the system to automatically select stock based on its age to ensure consumption follows the principle:</p>
 
-<h2 id="covered-processes">Covered processes</h2>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>First In
+First Out
+(First In, First Out)
+</code></pre></div></div>
 
-<p>The feature covers the following processes:</p>
+<p>Unlike the standard Business Central behavior, which primarily relies on location selection rules and storage priorities, the Syntoralis FIFO Logistic solution uses the actual stock-in date to determine which stock should be picked first.</p>
 
-<h3 id="warehouse-pick">Warehouse Pick</h3>
-
-<p>When a warehouse pick is created, the system selects stock according to FIFO order and generates the corresponding pick lines.</p>
-
-<h3 id="inventory-pick">Inventory Pick</h3>
-
-<p>When an inventory pick is created, the FIFO engine determines quantities to pick based on available FIFO layers.</p>
-
-<h3 id="inventory-movement">Inventory Movement</h3>
-
-<p>Movement proposals use FIFO information to select the oldest available stock.</p>
-
-<h3 id="replenishment-for-pick-zones">Replenishment for pick zones</h3>
-
-<p>When the system generates replenishment movements, source stock selection respects FIFO rules.</p>
-
-<h3 id="lot-tracked-items">Lot-tracked items</h3>
-
-<p>The FIFO engine handles lot-tracked items and selects lots in order of their stock-in date.</p>
-
-<h3 id="serial-tracked-items">Serial-tracked items</h3>
-
-<p>The FIFO engine handles serial-tracked items and selects serial numbers in FIFO order.</p>
-
-<h3 id="items-with-expiration-dates">Items with expiration dates</h3>
-
-<p>The FIFO engine remains compatible with Business Central’s standard FEFO (First Expired First Out) mechanisms when expiration dates are used.</p>
+<p>The goal is to ensure optimal stock rotation while remaining compatible with standard warehouse management features.</p>
 
 <hr />
 
-<h2 id="excluded-processes">Excluded processes</h2>
+<h1 id="general-principle">General principle</h1>
 
-<p>The following features are not covered by the FIFO engine:</p>
+<p>When a warehouse pick is created, the FIFO engine analyzes available stock and identifies the oldest quantities to consume.</p>
 
-<h3 id="warehouse-receipts">Warehouse receipts</h3>
+<p>The system relies on the field:</p>
 
-<p>Goods receipts remain managed by Business Central’s standard functionality. The FIFO engine only records the information needed for FIFO tracking.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LIS-LOG-FIFO Stock-in DateTime
+</code></pre></div></div>
 
-<h3 id="stock-adjustments">Stock adjustments</h3>
+<p>which represents the date and time when the goods were stocked.</p>
 
-<p>Item journals and inventory adjustments are not driven by the FIFO pick engine.</p>
-
-<h3 id="cost-calculations">Cost calculations</h3>
-
-<p>The feature does not affect item valuation methods in Business Central.</p>
-
-<h3 id="stock-reservations">Stock reservations</h3>
-
-<p>Standard reservation mechanisms continue to operate independently of the FIFO engine.</p>
-
-<h3 id="item-availability">Item availability</h3>
-
-<p>Standard availability calculations are not changed by the FIFO solution.</p>
+<p>Stocks are then sorted in ascending order to select the oldest quantities before the newest.</p>
 
 <hr />
 
-<h2 id="affected-functional-objects">Affected functional objects</h2>
+<h1 id="activation-conditions">Activation conditions</h1>
 
-<p>The FIFO pick process primarily acts on the following entities:</p>
+<p>The FIFO process runs only when:</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Location
-Bin Content
-Warehouse Entry
-Warehouse Activity Header
-Warehouse Activity Line
-Warehouse Pick
-Inventory Pick
-Inventory Movement
-Lot No.
-Serial No.
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FIFO Setup.Activate = TRUE
+</code></pre></div></div>
+
+<p>and</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Location.Pick Stock-in Movement = TRUE
+</code></pre></div></div>
+
+<p>If either condition is not met, Business Central applies its standard behavior.</p>
+
+<hr />
+
+<h1 id="trigger-points">Trigger points</h1>
+
+<p>The FIFO engine runs when the following documents are created:</p>
+
+<ul>
+  <li>Warehouse Pick</li>
+  <li>Inventory Pick</li>
+  <li>Inventory Movement</li>
+  <li>Location replenishment</li>
+  <li>Automatically generated warehouse activities</li>
+</ul>
+
+<hr />
+
+<h1 id="finding-available-stock">Finding available stock</h1>
+
+<h2 id="step-1---identify-stock">Step 1 - Identify stock</h2>
+
+<p>The system identifies all location contents matching:</p>
+
+<ul>
+  <li>the requested item;</li>
+  <li>the concerned location;</li>
+  <li>the storage unit;</li>
+  <li>any lot or serial criteria.</li>
+</ul>
+
+<p>Only available quantities are considered.</p>
+
+<hr />
+
+<h2 id="step-2---fifo-sorting">Step 2 - FIFO sorting</h2>
+
+<p>Records are sorted by:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Stock-in DateTime
+</code></pre></div></div>
+
+<p>in ascending order.</p>
+
+<p>Example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bin A - 2025-01-01 08:00
+Bin B - 2025-01-03 10:15
+Bin C - 2025-01-10 15:30
+</code></pre></div></div>
+
+<p>Pick order:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Bin A
+2. Bin B
+3. Bin C
 </code></pre></div></div>
 
 <hr />
 
-<h2 id="expected-outcome">Expected outcome</h2>
+<h1 id="quantity-allocation">Quantity allocation</h1>
 
-<p>Regardless of the generated document, the system must always:</p>
+<h2 id="case-1---sufficient-quantity-available">Case 1 - Sufficient quantity available</h2>
+
+<p>If the first location contains the required quantity:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Requirement = 50
+Bin A = 100
+</code></pre></div></div>
+
+<p>The system creates a single pick line:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bin A = 50
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="case-2---quantity-across-multiple-fifo-layers">Case 2 - Quantity across multiple FIFO layers</h2>
+
+<p>If the required quantity is spread across multiple FIFO layers:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Requirement = 100
+
+Bin A = 40
+Bin B = 30
+Bin C = 80
+</code></pre></div></div>
+
+<p>The system automatically creates:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Line 1 = Bin A = 40
+Line 2 = Bin B = 30
+Line 3 = Bin C = 30
+</code></pre></div></div>
+
+<p>Older layers are always fully consumed before moving to the next.</p>
+
+<hr />
+
+<h1 id="lot-handling">Lot handling</h1>
+
+<h2 id="principle">Principle</h2>
+
+<p>When the item is lot-tracked, the FIFO engine applies FIFO rules within the available stock per lot.</p>
+
+<p>The system:</p>
 
 <ul>
-  <li>Identify available stock.</li>
-  <li>Determine the oldest FIFO layer.</li>
-  <li>Consume quantities in FIFO order.</li>
-  <li>Automatically split lines when necessary.</li>
-  <li>Correctly assign lots and serial numbers.</li>
-  <li>Update remaining FIFO quantities.</li>
+  <li>identifies available lots;</li>
+  <li>sorts lots by stock-in date;</li>
+  <li>selects the oldest lots;</li>
+  <li>automatically assigns tracking information.</li>
 </ul>
 
-<p>This produces a pick document compliant with FIFO rules without changing standard operational processes.</p>
+<hr />
 
-<h2 id="detailed-section">Detailed section</h2>
+<h2 id="example">Example</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Lot LOT001 = 2025-01-10
+Lot LOT002 = 2025-01-20
+Lot LOT003 = 2025-02-01
+</code></pre></div></div>
+
+<p>Consumption order:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LOT001
+LOT002
+LOT003
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="serial-number-handling">Serial number handling</h1>
+
+<h2 id="principle-1">Principle</h2>
+
+<p>For serial-tracked items:</p>
+
 <ul>
-  <li><a href="./diff-bc-std-en.html">Differences from Standard Business Central FIFO</a></li>
-  <li><a href="./pick-en-process.html">Pick Process</a></li>
-  <li><a href="./whse-inventory-en.html">Warehouse Inventory Page</a></li>
-  <li><a href="./setup-en.html">FIFO Setup</a></li>
-  <li><a href="./recompute-process.html">Recompute Process</a></li>
+  <li>each serial number has its own FIFO layer;</li>
+  <li>serials are sorted by stock-in date;</li>
+  <li>the oldest are selected first.</li>
 </ul>
 
-<h2 id="download-section">Download section</h2>
-<p><a href="https://github.com/Syntoralis/BCApps/tree/main/AppSource/Syntoralis-fifo-logistic">MarketPlace App</a></p>
+<hr />
+
+<h2 id="duplicate-checks">Duplicate checks</h2>
+
+<p>The system verifies that a serial number or lot is not assigned multiple times to the same pick.</p>
+
+<p>This validation prevents:</p>
+
+<ul>
+  <li>duplicate tracking assignments;</li>
+  <li>quantity inconsistencies;</li>
+  <li>errors when posting the pick.</li>
+</ul>
+
+<hr />
+
+<h1 id="fefo-compatibility">FEFO compatibility</h1>
+
+<h2 id="principle-2">Principle</h2>
+
+<p>For items that also use FEFO (First Expired First Out) logic, the FIFO engine remains compatible with standard expiration date selection rules.</p>
+
+<p>Items incompatible with FEFO selection are automatically excluded to avoid logic conflicts.</p>
+
+<hr />
+
+<h1 id="updating-fifo-layers">Updating FIFO layers</h1>
+
+<p>After pick creation:</p>
+
+<ul>
+  <li>remaining quantities are recalculated;</li>
+  <li>consumed FIFO layers are updated;</li>
+  <li>fully consumed layers are closed;</li>
+  <li>available stock information is refreshed.</li>
+</ul>
+
+<p>Example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Before pick:
+
+Inbound 1 = 100
+Remaining Qty = 100
+
+Pick = 60
+</code></pre></div></div>
+
+<p>Result:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Remaining Qty = 40
+Open = TRUE
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="edge-cases">Edge cases</h1>
+
+<h2 id="insufficient-quantity">Insufficient quantity</h2>
+
+<p>If available stock is insufficient:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Requirement = 100
+Available = 80
+</code></pre></div></div>
+
+<p>The system picks the 80 units available following FIFO order.</p>
+
+<p>Final behavior then depends on Business Central’s standard controls.</p>
+
+<hr />
+
+<h2 id="multiple-locations">Multiple locations</h2>
+
+<p>When multiple locations contain stock:</p>
+
+<ul>
+  <li>FIFO remains the primary criterion;</li>
+  <li>location ranking is used only as a complement to FIFO rules.</li>
+</ul>
+
+<hr />
+
+<h2 id="multiple-items">Multiple items</h2>
+
+<p>Each item has its own FIFO history.</p>
+
+<p>Processing is performed independently per item.</p>
+
+<hr />
+
+<h1 id="business-rules">Business rules</h1>
+
+<h2 id="pp001">PP001</h2>
+
+<p>Stock must always be consumed according to the oldest available stock-in date.</p>
+
+<h2 id="pp002">PP002</h2>
+
+<p>The Stock-in DateTime field is the primary selection criterion.</p>
+
+<h2 id="pp003">PP003</h2>
+
+<p>Pick lines may be automatically split to respect FIFO order.</p>
+
+<h2 id="pp004">PP004</h2>
+
+<p>Remaining quantities of FIFO layers must be updated after each consumption.</p>
+
+<h2 id="pp005">PP005</h2>
+
+<p>A FIFO layer with remaining quantity zero must be closed.</p>
+
+<h2 id="pp006">PP006</h2>
+
+<p>Lots and serial numbers must never be assigned multiple times to the same pick document.</p>
+
+<h2 id="pp007">PP007</h2>
+
+<p>The FIFO process must never modify original movements.</p>
+
+<hr />
+
+<h1 id="detailed-process">Detailed process</h1>
+
+<pre><code class="language-mermaid">flowchart TD
+
+A[Pick creation]
+--&gt; B[FIFO activation check]
+
+B --&gt; C{FIFO enabled ?}
+
+C --&gt;|No| D[Standard Business Central logic]
+
+C --&gt;|Yes| E[Find available stock]
+
+E --&gt; F[Sort by Stock-in DateTime]
+
+F --&gt; G[Determine quantity to pick]
+
+G --&gt; H{Sufficient quantity ?}
+
+H --&gt;|Yes| I[Create lines]
+
+H --&gt;|No| J[Automatic splitting]
+
+J --&gt; I
+
+I --&gt; K[Assign lots / serial numbers]
+
+K --&gt; L[Update remaining quantities]
+
+L --&gt; M[Close consumed layers]
+
+M --&gt; N[Create FIFO pick]
+</code></pre>
+
+<hr />
+
+<h1 id="key-concept">Key concept</h1>
+
+<p>The FIFO pick engine is the operational core of the solution.</p>
+
+<p>Thanks to the information reconstructed by the recompute process, it can:</p>
+
+<ul>
+  <li>identify available FIFO layers;</li>
+  <li>automatically select the oldest stock;</li>
+  <li>handle lots and serials;</li>
+  <li>split lines when needed;</li>
+  <li>enforce stock rotation according to FIFO principles.</li>
+</ul>
+
+<p>The result is a pick driven by the actual age of the stock rather than by its warehouse location alone.</p>
+
+<hr />
+
+<p><a href="./index-en.html">Index</a></p>
 
               </div>
             </div>
