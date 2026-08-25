@@ -1,12 +1,12 @@
 ---
 layout: default
-title: "Welcome on BC Syntoralis FIFO Logistic Helper"
+title: "Bienvenue sur l'aide BC Syntoralis FIFO Logistique"
 ---
 
-In Progress
+En cours
 
-##Detailed section
+## Pour en savoir plus
 - [FIFO Setup](./setup.html)
 
-##Download section
+## Zone de téléchargement
 [MarketPlace App](https://github.com/Syntoralis/BCApps/tree/main/AppSource/Syntoralis-fifo-logistic)
