@@ -227,13 +227,13 @@ I --> J[Create FIFO Warehouse Picks]
 
 The FIFO solution operates on three mandatory stages:
 
-### 1. **Recompute locations**  
+### 1. Recompute locations
    Initialize FIFO data for all locations.
 
-### 2. **FIFO Setup → Activate**  
+### 2. FIFO Setup → Activate
    Enable the FIFO engine at company level.
 
-### 3. **Location → Pick Stock-in Movement**  
+### 3. Location → Pick Stock-in Movement
    Enable FIFO processing for a specific warehouse location.
 
 Only when all prerequisites are met does the system apply FIFO stock consumption rules based on Stock-in DateTime and generate FIFO-compliant warehouse picks.
