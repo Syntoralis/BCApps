@@ -3,6 +3,26 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Syntoralis Où la tech rencontre l’éthique, la durabilité et la conformité. Progiciels et accompagnement numérique responsable pour entreprises et particuliers.">
+    <meta name="keywords" content="numérique responsable, RSE numérique, conformité RGPD, progiciels, Syntoralis, Vaux-sur-Seine, dark mode, écoconception, accessibilité, numérique éthique">
+    <meta name="author" content="Syntoralis EURL">
+    <meta name="image" property="og:image" content="https://syntoralis.eu/img/logo-syntoralis.rs.png">
+    <meta name="robots" content="index, follow">
+    <link rel="alternate" hreflang="fr" href="https://syntoralis.eu/index.html">
+    <link rel="alternate" hreflang="en" href="https://syntoralis.eu/index-en.html">
+    <link rel="canonical" href="https://syntoralis.eu/index.html">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Syntoralis Numérique responsable, éthique, conforme">
+    <meta property="og:description" content="Progiciels et accompagnement numérique responsable pour entreprises et particuliers. Conformité, RSE, sobriété, accessibilité.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://syntoralis.eu">
+    <meta property="og:image" content="https://syntoralis.eu/img/logo-syntoralis.rs.png">
+    <meta property="og:locale" content="fr_FR">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Syntoralis Numérique responsable, éthique, conforme">
+    <meta name="twitter:description" content="Progiciels et accompagnement numérique responsable pour entreprises et particuliers. Conformité, RSE, sobriété, accessibilité.">
+    <meta name="twitter:image" content="https://syntoralis.eu/img/logo-syntoralis.rs.png">
     <title>Syntoralis FIFO Logistic - Paramétrage FIFO</title>
     <link rel="stylesheet" href="/BCApps/assets/css/style.css">
     <script type="module">
@@ -309,25 +329,24 @@ LIS-LOG-FIFO Re. MaxEntryNo
 <h1 id="flux-de-configuration">Flux de configuration</h1>
 
 <pre><code class="language-mermaid">flowchart TD
+    A[Exécuter le recalcul FIFO sur tous les emplacements]
+    --&gt; B[Validation terminée]
 
-A[Exécuter le recalcul FIFO sur tous les emplacements]
---&gt; B[Validation terminée]
+    B --&gt; C[Activer le paramétrage FIFO]
 
-B --&gt; C[Activer le paramétrage FIFO]
+    C --&gt; D[Paramétrage de l'emplacement]
 
-C --&gt; D[Paramétrage de l'emplacement]
+    D --&gt; E{Prise FIFO sur mouvement d'entrée ?}
 
-D --&gt; E{Prise FIFO sur mouvement d'entrée ?}
+    E --&gt;|Non| F[Logique standard Business Central]
 
-E --&gt;|Non| F[Logique standard Business Central]
+    E --&gt;|Oui| G[Moteur FIFO activé]
 
-E --&gt;|Oui| G[Moteur FIFO activé]
+    G --&gt; H[Suivi du Stock-in DateTime]
 
-G --&gt; H[Suivi du Stock-in DateTime]
+    H --&gt; I[Sélection du stock le plus ancien]
 
-H --&gt; I[Sélection du stock le plus ancien]
-
-I --&gt; J[Création des prélèvements FIFO]
+    I --&gt; J[Création des prélèvements FIFO]
 </code></pre>
 
 <hr />
