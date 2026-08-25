@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Syntoralis FIFO Logistic - Paramétrage FIFO</title>
+    <title>Syntoralis FIFO Logistic - FIFO Setup</title>
     <link rel="stylesheet" href="/BCApps/assets/css/style.css">
   </head>
   <body>
@@ -106,249 +106,240 @@
           <div class="row">
             <div class="col">
               <div class="card">
-                <h1 id="paramétrage-fifo">Paramétrage FIFO</h1>
+                <h1 id="fifo-setup">FIFO Setup</h1>
 
-<h2 id="objectif">Objectif</h2>
+<h2 id="purpose">Purpose</h2>
 
-<p>Le paramétrage FIFO contrôle l’activation et le fonctionnement de l’extension <strong>Syntoralis FIFO Logistic</strong>. Il fournit un point de configuration centralisé permettant d’activer la gestion FIFO des entrepôts et fonctionne conjointement avec les paramètres FIFO définis sur chaque emplacement (<em>Location</em>).</p>
+<p>The FIFO Setup controls the activation and operation of the Syntoralis FIFO Logistic extension. It provides a centralized configuration point for enabling FIFO warehouse management and works in conjunction with the FIFO settings available on individual Locations.</p>
 
-<p>L’objectif est de garantir que les stocks sont consommés selon la date et l’heure du plus ancien mouvement d’entrée en stock (<em>Stock-in DateTime</em>), tout en restant compatible avec les processus standards de gestion d’entrepôt de Microsoft Dynamics 365 Business Central.</p>
+<p>The objective is to ensure inventory is consumed according to the oldest stock-in movement date and time while maintaining compatibility with standard Business Central warehouse processes.</p>
 
 <hr />
 
-<h1 id="activation-globale-du-fifo">Activation globale du FIFO</h1>
+<h1 id="global-fifo-activation">Global FIFO Activation</h1>
 
-<h2 id="activer">Activer</h2>
+<h2 id="activate">Activate</h2>
 
-<h3 id="objectif-1">Objectif</h3>
+<h3 id="purpose-1">Purpose</h3>
 
-<p>Le champ <strong>Activer</strong> constitue l’interrupteur global de la solution FIFO. Il détermine si le moteur FIFO est opérationnel dans la société.</p>
+<p>The <strong>Activate</strong> field is the global activation switch of the FIFO solution. It determines whether the FIFO engine is operational within the company.</p>
 
-<p>Lorsque ce champ est désactivé, l’extension reste installée mais aucun traitement FIFO n’est exécuté. Les comportements standards de gestion d’entrepôt de Business Central continuent alors de s’appliquer.</p>
+<p>When disabled, the extension remains installed, but FIFO processing is not executed. Standard Business Central warehouse behavior continues to apply. When enabled, FIFO functionality becomes available for locations configured to use FIFO stock rotation.</p>
 
-<p>Lorsque ce champ est activé, les fonctionnalités FIFO deviennent disponibles pour les emplacements configurés pour utiliser la rotation FIFO des stocks.</p>
+<h3 id="activation-prerequisite">Activation Prerequisite</h3>
 
-<h3 id="prérequis-à-lactivation">Prérequis à l’activation</h3>
+<p>Before the <strong>Activate</strong> field can be enabled, the FIFO initialization must be completed for all applicable locations.</p>
 
-<p>Avant d’activer le champ <strong>Activer</strong>, l’initialisation FIFO doit être terminée pour tous les emplacements concernés.</p>
-
-<p>L’activation du paramétrage FIFO ne doit être réalisée qu’une fois les données d’entrepôt préparées et tous les emplacements traités avec succès via la fonction <strong>Recalculer (Recompute)</strong>. Cela garantit que les données FIFO sont correctement initialisées et prêtes pour une utilisation opérationnelle.</p>
+<p>The FIFO Setup activation is only intended to be performed once the warehouse data has been prepared and all locations have been successfully processed through the <strong>Recompute</strong> function. This ensures that FIFO data is initialized and ready for operational use.</p>
 
 <blockquote>
-  <p><strong>Important :</strong> Le processus de recalcul doit être exécuté sur l’ensemble des emplacements concernés avant l’activation de la solution FIFO. La description détaillée de ce processus est documentée séparément.</p>
+  <p><strong>Important:</strong> The Recompute process must be completed on all locations before activating the FIFO solution. The details of the Recompute process are documented separately.</p>
 </blockquote>
 
-<h3 id="rôle-métier">Rôle métier</h3>
+<h3 id="business-role">Business Role</h3>
 
-<p>Ce champ permet aux administrateurs de :</p>
+<p>The field allows administrators to:</p>
 
 <ul>
-  <li>Activer la solution FIFO lors de la mise en production.</li>
-  <li>Suspendre temporairement les traitements FIFO pour des opérations de maintenance.</li>
-  <li>Contrôler le déploiement du moteur FIFO à l’échelle de la société.</li>
-  <li>Autoriser les opérations d’entrepôt FIFO une fois les activités d’initialisation terminées.</li>
+  <li>Activate the FIFO solution during go-live.</li>
+  <li>Temporarily suspend FIFO processing for maintenance purposes.</li>
+  <li>Control company-wide deployment of the FIFO engine.</li>
+  <li>Enable FIFO warehouse operations once initialization activities have been completed.</li>
 </ul>
 
-<h3 id="règle-de-conception-fs000">Règle de conception FS000</h3>
+<h3 id="design-rule-fs000">Design Rule FS000</h3>
 
-<p>Le champ <strong>Activer</strong> doit être activé avant qu’un entrepôt puisse fonctionner selon la logique FIFO basée sur les mouvements d’entrée en stock. Il constitue le prérequis applicatif à l’ensemble des traitements FIFO.</p>
+<p>The <strong>Activate</strong> field must be enabled before any warehouse can operate under FIFO stock-in movement logic. It acts as the application-level prerequisite for all FIFO processes.</p>
 
-<h3 id="règle-de-conception-fs000a">Règle de conception FS000A</h3>
+<h3 id="design-rule-fs000a">Design Rule FS000A</h3>
 
-<p>Le champ <strong>Activer</strong> doit rester désactivé tant que l’initialisation FIFO n’a pas été réalisée via la fonction <strong>Recalculer</strong> pour l’ensemble des emplacements inclus dans le périmètre FIFO.</p>
+<p>The <strong>Activate</strong> field must remain disabled until FIFO initialization has been completed through the Recompute function for all locations included in the FIFO scope.</p>
 
 <hr />
 
-<h1 id="activation-fifo-par-emplacement">Activation FIFO par emplacement</h1>
+<h1 id="location-fifo-activation">Location FIFO Activation</h1>
 
-<h2 id="prise-fifo-sur-mouvement-dentrée">Prise FIFO sur mouvement d’entrée</h2>
+<h2 id="pick-stock-in-movement">Pick Stock-in Movement</h2>
 
-<h3 id="objectif-2">Objectif</h3>
+<h3 id="purpose-2">Purpose</h3>
 
-<p>Le champ <strong>Prise FIFO sur mouvement d’entrée</strong> constitue l’interrupteur d’activation au niveau de l’emplacement. Il détermine si la rotation FIFO des stocks doit être appliquée à un emplacement donné.</p>
+<p>The <strong>Pick Stock-in Movement</strong> field acts as the location-level activation switch. It determines whether FIFO stock rotation is applied to a specific warehouse location.</p>
 
-<h3 id="règle-de-conception-fs001">Règle de conception FS001</h3>
+<h3 id="design-rule-fs001">Design Rule FS001</h3>
 
-<p>Le traitement FIFO est appliqué uniquement lorsque les deux conditions suivantes sont remplies :</p>
+<p>FIFO processing is applied only when both conditions are met:</p>
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FIFO Setup.Activate = TRUE
-ET
+AND
 Location.Pick Stock-in Movement = TRUE
 </code></pre></div></div>
 
-<p>Si l’une de ces conditions n’est pas remplie, la logique standard de gestion d’entrepôt de Business Central est utilisée.</p>
+<p>If either condition is not met, standard Business Central warehouse logic is used.</p>
 
 <hr />
 
-<h1 id="règles-de-configuration-automatiques">Règles de configuration automatiques</h1>
+<h1 id="automatic-configuration-rules">Automatic Configuration Rules</h1>
 
-<h2 id="fs002---politique-de-sélection-des-emplacements">FS002 - Politique de sélection des emplacements</h2>
+<h2 id="fs002---pick-bin-policy">FS002 - Pick Bin Policy</h2>
 
-<p>Lorsqu’un emplacement est configuré en FIFO, le système impose automatiquement :</p>
+<p>When FIFO is enabled for a location, the system automatically enforces:</p>
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Pick Bin Policy = Bin Ranking
 </code></pre></div></div>
 
-<p>Cela garantit que les prélèvements sont générés selon les priorités FIFO plutôt que selon les méthodes standards de sélection des emplacements de stockage.</p>
+<p>This ensures that warehouse picks are generated according to FIFO priorities rather than standard bin selection methods.</p>
 
 <hr />
 
-<h2 id="fs003---sélection-automatique-de-lemplacement">FS003 - Sélection automatique de l’emplacement</h2>
+<h2 id="fs003---default-bin-selection">FS003 - Default Bin Selection</h2>
 
-<p>Lorsque le FIFO est activé, le système vide le paramètre :</p>
+<p>When FIFO is activated, the system clears:</p>
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Default Bin Selection
 </code></pre></div></div>
 
-<p>Cela empêche les transactions d’entrepôt de contourner la rotation FIFO via des règles de sélection automatiques d’emplacements.</p>
+<p>This prevents warehouse transactions from bypassing FIFO inventory rotation through predefined default-bin rules.</p>
 
 <hr />
 
-<h2 id="fs004---restrictions-sur-les-emplacements-de-stockage">FS004 - Restrictions sur les emplacements de stockage</h2>
+<h2 id="fs004---bin-restrictions">FS004 - Bin Restrictions</h2>
 
-<p>Les emplacements configurés en FIFO ne peuvent pas utiliser :</p>
+<p>FIFO-enabled locations cannot use:</p>
 
 <ul>
-  <li>Emplacements par défaut (<em>Default Bins</em>)</li>
-  <li>Emplacements fixes (<em>Fixed Bins</em>)</li>
-  <li>Emplacements dédiés (<em>Dedicated Bins</em>)</li>
+  <li>Default Bins</li>
+  <li>Fixed Bins</li>
+  <li>Dedicated Bins</li>
 </ul>
 
-<p>Ces configurations peuvent entrer en conflit avec les principes de rotation FIFO et ne sont donc pas prises en charge.</p>
+<p>These warehouse configurations can conflict with FIFO stock rotation principles and therefore are not supported.</p>
 
 <hr />
 
-<h1 id="configuration-du-suivi-fifo">Configuration du suivi FIFO</h1>
+<h1 id="fifo-tracking-configuration">FIFO Tracking Configuration</h1>
 
-<h2 id="dateheure-dentrée-en-stock">Date/Heure d’entrée en stock</h2>
+<h2 id="stock-in-datetime">Stock-in DateTime</h2>
 
-<p>L’extension ajoute un champ personnalisé sur les contenus d’emplacement (<em>Bin Content</em>) :</p>
+<p>The extension adds a custom field on Bin Content:</p>
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LIS-LOG-FIFO Stock-in DateTime
 </code></pre></div></div>
 
-<p>Ce champ stocke la date et l’heure du mouvement d’entrée associé au stock disponible dans l’emplacement.</p>
+<p>This field stores the timestamp of the stock-in movement associated with the inventory available in the bin. It serves as the primary FIFO sorting criterion used during warehouse pick generation.</p>
 
-<p>Il constitue le principal critère de tri utilisé lors de la génération des prélèvements.</p>
+<h3 id="fifo-sorting-rule">FIFO Sorting Rule</h3>
 
-<h3 id="règle-de-tri-fifo">Règle de tri FIFO</h3>
+<p>Inventory is always selected according to:</p>
 
-<p>Le stock est toujours sélectionné selon la règle suivante :</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Le plus ancien Stock-in DateTime en premier
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Oldest Stock-in DateTime First
 </code></pre></div></div>
 
-<p>Cela garantit une consommation FIFO des stocks, indépendamment de l’emplacement physique dans lequel ils sont stockés.</p>
+<p>This guarantees FIFO stock consumption regardless of the physical bin where inventory is stored.</p>
 
 <hr />
 
-<h1 id="champs-de-suivi-fifo">Champs de suivi FIFO</h1>
+<h1 id="fifo-monitoring-fields">FIFO Monitoring Fields</h1>
 
-<p>Les champs suivants sont maintenus sur la fiche emplacement :</p>
+<p>The following fields are maintained on the Location record:</p>
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LIS-LOG-FIFO RecomputeDone
 LIS-LOG-FIFO RecomputeDateTime
 LIS-LOG-FIFO Re. MaxEntryNo
 </code></pre></div></div>
 
-<p>Ces champs sont utilisés en interne pour suivre l’état d’initialisation FIFO et les traitements de recalcul.</p>
+<p>These fields are used internally to monitor FIFO initialization status.</p>
 
 <hr />
 
-<h1 id="procédure-de-mise-en-œuvre">Procédure de mise en œuvre</h1>
+<h1 id="setup-procedure">Setup Procedure</h1>
 
-<h2 id="étape-1">Étape 1</h2>
+<h2 id="step-1">Step 1</h2>
 
-<p>Exécuter la fonction <strong>Recalcul FIFO</strong> sur tous les emplacements qui devront utiliser le traitement FIFO.</p>
+<p>Execute the FIFO Recompute function for all locations that will use FIFO processing.</p>
 
-<h2 id="étape-2">Étape 2</h2>
+<h2 id="step-2">Step 2</h2>
 
-<p>Vérifier que l’initialisation est terminée avec succès pour chacun des emplacements concernés.</p>
+<p>Validate that all locations have successfully completed the initialization process.</p>
 
-<h2 id="étape-3">Étape 3</h2>
+<h2 id="step-3">Step 3</h2>
 
-<p>Ouvrir la page <strong>Paramétrage FIFO</strong> puis activer :</p>
+<p>Open the FIFO Setup page and enable:</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Activer = TRUE
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Activate = TRUE
 </code></pre></div></div>
 
-<h2 id="étape-4">Étape 4</h2>
+<h2 id="step-4">Step 4</h2>
 
-<p>Ouvrir la fiche emplacement de chaque entrepôt devant fonctionner en FIFO.</p>
+<p>Open the Location Card for each warehouse location that must use FIFO logic.</p>
 
-<h2 id="étape-5">Étape 5</h2>
+<h2 id="step-5">Step 5</h2>
 
-<p>Activer :</p>
+<p>Enable:</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Prise FIFO sur mouvement d'entrée = TRUE
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Pick Stock-in Movement = TRUE
 </code></pre></div></div>
 
-<h2 id="étape-6">Étape 6</h2>
+<h2 id="step-6">Step 6</h2>
 
-<p>Vérifier que le système utilise :</p>
+<p>Verify that the system uses:</p>
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Pick Bin Policy = Bin Ranking
 </code></pre></div></div>
 
-<h2 id="étape-7">Étape 7</h2>
+<h2 id="step-7">Step 7</h2>
 
-<p>Vérifier que l’emplacement n’utilise pas :</p>
+<p>Verify that the location does not use:</p>
 
 <ul>
-  <li>Emplacements fixes</li>
-  <li>Emplacements dédiés</li>
-  <li>Emplacements par défaut</li>
+  <li>Fixed Bins</li>
+  <li>Dedicated Bins</li>
+  <li>Default Bins</li>
 </ul>
 
 <hr />
 
-<h1 id="flux-de-configuration">Flux de configuration</h1>
+<h1 id="configuration-flow">Configuration Flow</h1>
 
 <pre><code class="language-mermaid">flowchart TD
 
-A[Exécuter le recalcul FIFO sur tous les emplacements]
---&gt; B[Validation terminée]
+A[Run Recompute on All Locations]
+--&gt; B[Validation Completed]
 
-B --&gt; C[Activer le paramétrage FIFO]
+B --&gt; C[Enable FIFO Setup Activate]
 
-C --&gt; D[Paramétrage de l'emplacement]
+C --&gt; D[Location Setup]
 
-D --&gt; E{Prise FIFO sur mouvement d'entrée ?}
+D --&gt; E{Pick Stock-in Movement}
 
-E --&gt;|Non| F[Logique standard Business Central]
+E --&gt;|No| F[Standard Business Central Logic]
 
-E --&gt;|Oui| G[Moteur FIFO activé]
+E --&gt;|Yes| G[FIFO Engine Enabled]
 
-G --&gt; H[Suivi du Stock-in DateTime]
+G --&gt; H[Track Stock-in DateTime]
 
-H --&gt; I[Sélection du stock le plus ancien]
+H --&gt; I[Sort Oldest Inventory First]
 
-I --&gt; J[Création des prélèvements FIFO]
+I --&gt; J[Create FIFO Warehouse Picks]
 </code></pre>
 
 <hr />
 
-<h1 id="concept-clé">Concept clé</h1>
+<h1 id="key-concept">Key Concept</h1>
 
-<p>La solution FIFO repose sur trois étapes obligatoires :</p>
+<p>The FIFO solution operates on three mandatory stages:</p>
 
-<h3 id="1-recalcul-des-emplacements">1. Recalcul des emplacements</h3>
+<h3 id="1-recompute-locations">1. <strong>Recompute locations</strong></h3>
+<p>Initialize FIFO data for all locations.</p>
 
-<p>Initialisation des données FIFO pour tous les emplacements concernés.</p>
+<h3 id="2-fifo-setup--activate">2. <strong>FIFO Setup → Activate</strong></h3>
+<p>Enable the FIFO engine at company level.</p>
 
-<h3 id="2-paramétrage-fifo--activer">2. Paramétrage FIFO → Activer</h3>
+<h3 id="3-location--pick-stock-in-movement">3. <strong>Location → Pick Stock-in Movement</strong></h3>
+<p>Enable FIFO processing for a specific warehouse location.</p>
 
-<p>Activation du moteur FIFO au niveau de la société.</p>
+<p>Only when all prerequisites are met does the system apply FIFO stock consumption rules based on Stock-in DateTime and generate FIFO-compliant warehouse picks.</p>
 
-<h3 id="3-emplacement--prise-fifo-sur-mouvement-dentrée">3. Emplacement → Prise FIFO sur mouvement d’entrée</h3>
-
-<p>Activation du traitement FIFO pour un emplacement spécifique.</p>
-
-<p>Ce n’est qu’après la validation de ces trois prérequis que le système applique les règles de consommation FIFO basées sur le <strong>Stock-in DateTime</strong> et génère des prélèvements conformes à la méthode FIFO.</p>
-
-<hr />
-
-<p><a href="./index.html">Index</a></p>
+<p><a href="./index-en.html">Index</a></p>
 
               </div>
             </div>
