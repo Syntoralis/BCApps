@@ -24,7 +24,7 @@
     <meta name="twitter:title" content="Syntoralis Numérique responsable, éthique, conforme">
     <meta name="twitter:description" content="Progiciels et accompagnement numérique responsable pour entreprises et particuliers. Conformité, RSE, sobriété, accessibilité.">
     <meta name="twitter:image" content="https://syntoralis.eu/img/logo-syntoralis.rs.png">
-    <title>Bienvenue sur l'aide Syntoralis BCApps</title>
+    <title>Syntoralis FIFO Logistic - Page Inventaire d'entrepôt</title>
     <link rel="stylesheet" href="/BCApps/assets/css/style.css">
     <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
@@ -146,13 +146,197 @@
           <div class="row">
             <div class="col">
               <div class="card">
-                <p>En cours</p>
+                <h1 id="page-inventaire-dentrepôt">Page Inventaire d’entrepôt</h1>
 
-<h1 id="accès-rapide-seulement-en-anglais">Accès Rapide (Seulement en anglais)</h1>
+<h2 id="objectif">Objectif</h2>
+
+<p>La page <strong>Inventaire d’entrepôt</strong> fournit une visibilité opérationnelle sur l’inventaire FIFO géré par l’extension Syntoralis FIFO Logistic.</p>
+
+<p>La page permet aux utilisateurs d’entrepôt, aux contrôleurs d’inventaire et aux administrateurs d’examiner l’inventaire disponible dans un emplacement selon la logique de mouvements d’entrée FIFO. Elle sert d’outil principal d’analyse pour valider comment l’inventaire sera consommé par le moteur FIFO.</p>
+
+<hr />
+
+<h1 id="objectif-métier">Objectif métier</h1>
+
+<p>La page Inventaire d’entrepôt permet aux utilisateurs de :</p>
 
 <ul>
-  <li><a href="./syntoralis-fifo-logistic">Syntoralis FIFO Logistic</a></li>
+  <li>Voir l’inventaire disponible pour la consommation FIFO.</li>
+  <li>Analyser le stock selon la date/heure d’entrée en stock.</li>
+  <li>Valider la séquence FIFO avant la création des préparations (picks) d’entrepôt.</li>
+  <li>Examiner les écarts d’inventaire.</li>
+  <li>Supporter les activités de validation de recomputation FIFO.</li>
+  <li>Fournir la visibilité sur les inventaires suivis par lot et par numéro de série participant à l’allocation FIFO.</li>
 </ul>
+
+<hr />
+
+<h1 id="accès">Accès</h1>
+
+<p>La page Inventaire d’entrepôt est accessible directement depuis les pages de configuration d’entrepôt activées pour FIFO.</p>
+
+<h3 id="fiche-emplacement">Fiche Emplacement</h3>
+
+<p>Action disponible :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ouvrir Inventaire d'entrepôt
+</code></pre></div></div>
+
+<h3 id="contenu-du-bac">Contenu du Bac</h3>
+
+<p>Action disponible :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ouvrir Inventaire d'entrepôt
+</code></pre></div></div>
+
+<h3 id="contenus-des-bacs">Contenus des Bacs</h3>
+
+<p>Action disponible :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ouvrir Inventaire d'entrepôt
+</code></pre></div></div>
+
+<h3 id="liste-des-contenus-des-bacs">Liste des Contenus des Bacs</h3>
+
+<p>Action disponible :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ouvrir Inventaire d'entrepôt
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="rôle-fonctionnel">Rôle Fonctionnel</h1>
+
+<p>La page Inventaire d’entrepôt fait le lien fonctionnel entre :</p>
+
+<ul>
+  <li>Entrées d’entrepôt</li>
+  <li>Contenus des bacs</li>
+  <li>Date/heure d’entrée FIFO</li>
+  <li>Génération de préparations d’entrepôt</li>
+</ul>
+
+<p>Elle fournit une vue consolidée de l’inventaire qui sera pris en compte par le moteur FIFO lors des opérations d’entrepôt.</p>
+
+<hr />
+
+<h1 id="visibilité-fifo">Visibilité FIFO</h1>
+
+<h2 id="dateheure-dentrée-en-stock">Date/heure d’entrée en stock</h2>
+
+<p>La page expose l’information de séquençage FIFO via :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LIS-LOG-FIFO Date/heure d'entrée en stock
+</code></pre></div></div>
+
+<p>Cette valeur représente l’horodatage d’entrée en stock utilisé par le moteur FIFO pour prioriser la consommation d’inventaire.</p>
+
+<h3 id="principe-fifo">Principe FIFO</h3>
+
+<p>L’inventaire affiché avec la plus ancienne Date/heure d’entrée en stock est consommé en premier lors de la génération des préparations d’entrepôt.</p>
+
+<hr />
+
+<h1 id="règles-métier">Règles Métier</h1>
+
+<h2 id="wi001---ordre-fifo">WI001 - Ordre FIFO</h2>
+
+<p>L’inventaire d’entrepôt est évalué selon :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Plus ancienne Date/heure d'entrée en stock en premier
+</code></pre></div></div>
+
+<p>La page permet aux utilisateurs de vérifier la séquence FIFO attendue avant la création des activités d’entrepôt.</p>
+
+<hr />
+
+<h2 id="wi002---analyse-de-linventaire-fifo">WI002 - Analyse de l’inventaire FIFO</h2>
+
+<p>Les utilisateurs peuvent examiner l’inventaire disponible et déterminer :</p>
+
+<ul>
+  <li>Quel stock sera consommé en premier.</li>
+  <li>Quel stock reste disponible.</li>
+  <li>Quels bacs contiennent actuellement l’inventaire le plus ancien.</li>
+</ul>
+
+<hr />
+
+<h2 id="wi003---visibilité-du-suivi">WI003 - Visibilité du suivi</h2>
+
+<p>Pour les articles tracés par lot et par numéro de série, la page aide les utilisateurs à comprendre quelles couches d’inventaire sont éligibles à la consommation FIFO.</p>
+
+<hr />
+
+<h2 id="wi004---audit-et-validation">WI004 - Audit et Validation</h2>
+
+<p>La page peut être utilisée comme outil de validation après l’initialisation et les activités de recomputation FIFO pour confirmer que l’ordre d’inventaire est conforme au comportement FIFO attendu.</p>
+
+<hr />
+
+<h1 id="cas-dutilisation-typiques">Cas d’utilisation typiques</h1>
+
+<h2 id="vérifier-le-fifo-avant-préparation">Vérifier le FIFO avant préparation</h2>
+
+<p>Un responsable d’entrepôt examine l’inventaire pour un article et confirme que le stock le plus ancien apparaît en premier dans la séquence FIFO avant de générer les préparations d’entrepôt.</p>
+
+<hr />
+
+<h2 id="enquêter-sur-une-consommation-de-stock-inattendue">Enquêter sur une consommation de stock inattendue</h2>
+
+<p>Un utilisateur consulte l’inventaire d’entrepôt pour déterminer pourquoi un lot, un numéro de série ou un bac spécifique a été sélectionné par le moteur FIFO.</p>
+
+<hr />
+
+<h2 id="valider-la-préparation-de-mise-en-production">Valider la préparation de mise en production</h2>
+
+<p>Après les activités d’initialisation, les contrôleurs d’inventaire examinent la page Inventaire d’entrepôt pour vérifier l’ordre FIFO avant d’activer la solution à l’échelle de l’entreprise.</p>
+
+<hr />
+
+<h2 id="analyser-linventaire-fifo-restant">Analyser l’inventaire FIFO restant</h2>
+
+<p>Les utilisateurs examinent les couches d’inventaire actuelles et identifient quel stock reste disponible pour de futures consommations d’entrepôt.</p>
+
+<hr />
+
+<h1 id="bénéfices-pour-lutilisateur">Bénéfices pour l’utilisateur</h1>
+
+<p>La page Inventaire d’entrepôt fournit :</p>
+
+<ul>
+  <li>Visibilité complète de l’inventaire FIFO.</li>
+  <li>Transparence des décisions de préparation d’entrepôt.</li>
+  <li>Facilitation du dépannage des opérations d’entrepôt.</li>
+  <li>Support de validation lors du déploiement et de la maintenance.</li>
+  <li>Confiance accrue dans les processus de rotation FIFO des stocks.</li>
+</ul>
+
+<hr />
+
+<h1 id="flux-de-processus">Flux de processus</h1>
+
+<pre><code class="language-mermaid">flowchart TD
+
+A[Utilisateur ouvre Inventaire d'entrepôt]
+--&gt; B[Examiner l'inventaire disponible]
+
+B --&gt; C[Examiner la Date/heure d'entrée en stock]
+
+C --&gt; D[Identifier la séquence FIFO]
+
+D --&gt; E[Valider l'ordre de consommation attendu]
+
+E --&gt; F[Générer la préparation d'entrepôt]
+
+F --&gt; G[Le moteur FIFO consomme l'inventaire le plus ancien]
+</code></pre>
+
+<hr />
+
+<h1 id="concept-clé">Concept clé</h1>
+
+<p>La page Inventaire d’entrepôt est une <strong>page de visibilité et de contrôle</strong>. Elle n’effectue pas elle-même les calculs FIFO mais présente les données d’inventaire utilisées par le moteur FIFO. Les utilisateurs peuvent ainsi comprendre, valider et dépanner la séquence d’inventaire qui pilotera la génération des préparations d’entrepôt et la consommation des stocks.</p>
 
               </div>
             </div>

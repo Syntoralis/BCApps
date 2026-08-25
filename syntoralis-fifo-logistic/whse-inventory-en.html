@@ -24,7 +24,7 @@
     <meta name="twitter:title" content="Syntoralis Numérique responsable, éthique, conforme">
     <meta name="twitter:description" content="Progiciels et accompagnement numérique responsable pour entreprises et particuliers. Conformité, RSE, sobriété, accessibilité.">
     <meta name="twitter:image" content="https://syntoralis.eu/img/logo-syntoralis.rs.png">
-    <title>Bienvenue sur l'aide Syntoralis BCApps</title>
+    <title>Syntoralis FIFO Logistic - Warehouse Inventory Page</title>
     <link rel="stylesheet" href="/BCApps/assets/css/style.css">
     <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
@@ -146,13 +146,197 @@
           <div class="row">
             <div class="col">
               <div class="card">
-                <p>En cours</p>
+                <h1 id="warehouse-inventory-page">Warehouse Inventory Page</h1>
 
-<h1 id="accès-rapide-seulement-en-anglais">Accès Rapide (Seulement en anglais)</h1>
+<h2 id="purpose">Purpose</h2>
+
+<p>The <strong>Warehouse Inventory</strong> page provides operational visibility into the FIFO inventory managed by the Syntoralis FIFO Logistic extension.</p>
+
+<p>The page allows warehouse users, inventory controllers, and administrators to review the inventory available within a location according to the FIFO stock-in movement logic. It serves as the primary analysis tool for validating how inventory will be consumed by the FIFO engine.</p>
+
+<hr />
+
+<h1 id="business-objective">Business Objective</h1>
+
+<p>The Warehouse Inventory page enables users to:</p>
 
 <ul>
-  <li><a href="./syntoralis-fifo-logistic">Syntoralis FIFO Logistic</a></li>
+  <li>View inventory available for FIFO consumption.</li>
+  <li>Analyze stock according to Stock-in DateTime.</li>
+  <li>Validate FIFO sequencing before warehouse picks are created.</li>
+  <li>Investigate inventory discrepancies.</li>
+  <li>Support FIFO recomputation validation activities.</li>
+  <li>Provide visibility into lot and serial tracked inventory participating in FIFO allocation.</li>
 </ul>
+
+<hr />
+
+<h1 id="access">Access</h1>
+
+<p>The Warehouse Inventory page can be accessed directly from FIFO-enabled warehouse configuration pages.</p>
+
+<h3 id="location-card">Location Card</h3>
+
+<p>Action available:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Open Warehouse Inventory
+</code></pre></div></div>
+
+<h3 id="bin-content">Bin Content</h3>
+
+<p>Action available:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Open Warehouse Inventory
+</code></pre></div></div>
+
+<h3 id="bin-contents">Bin Contents</h3>
+
+<p>Action available:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Open Warehouse Inventory
+</code></pre></div></div>
+
+<h3 id="bin-contents-list">Bin Contents List</h3>
+
+<p>Action available:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Open Warehouse Inventory
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="functional-role">Functional Role</h1>
+
+<p>The Warehouse Inventory page acts as the functional bridge between:</p>
+
+<ul>
+  <li>Warehouse Entries</li>
+  <li>Bin Contents</li>
+  <li>FIFO Stock-in DateTime</li>
+  <li>Warehouse Pick Generation</li>
+</ul>
+
+<p>It provides a consolidated view of inventory that will be considered by the FIFO engine during warehouse operations.</p>
+
+<hr />
+
+<h1 id="fifo-visibility">FIFO Visibility</h1>
+
+<h2 id="stock-in-datetime">Stock-in DateTime</h2>
+
+<p>The page exposes the FIFO sequencing information through:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LIS-LOG-FIFO Stock-in DateTime
+</code></pre></div></div>
+
+<p>This value represents the stock-in timestamp used by the FIFO engine to prioritize inventory consumption.</p>
+
+<h3 id="fifo-principle">FIFO Principle</h3>
+
+<p>Inventory displayed with the oldest Stock-in DateTime is consumed first during warehouse pick generation.</p>
+
+<hr />
+
+<h1 id="business-rules">Business Rules</h1>
+
+<h2 id="wi001---fifo-ordering">WI001 - FIFO Ordering</h2>
+
+<p>Warehouse inventory is evaluated according to:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Oldest Stock-in DateTime First
+</code></pre></div></div>
+
+<p>The page allows users to verify the expected FIFO sequence before warehouse activities are created.</p>
+
+<hr />
+
+<h2 id="wi002---fifo-inventory-analysis">WI002 - FIFO Inventory Analysis</h2>
+
+<p>Users can review available inventory and determine:</p>
+
+<ul>
+  <li>Which stock will be consumed first.</li>
+  <li>Which stock remains available.</li>
+  <li>Which bins currently contain the oldest inventory.</li>
+</ul>
+
+<hr />
+
+<h2 id="wi003---tracking-visibility">WI003 - Tracking Visibility</h2>
+
+<p>For lot-tracked and serial-tracked items, the page assists users in understanding which inventory layers are eligible for FIFO consumption.</p>
+
+<hr />
+
+<h2 id="wi004---audit-and-validation">WI004 - Audit and Validation</h2>
+
+<p>The page can be used as a validation tool after FIFO initialization and recomputation activities to confirm inventory ordering is aligned with expected FIFO behavior.</p>
+
+<hr />
+
+<h1 id="typical-use-cases">Typical Use Cases</h1>
+
+<h2 id="verify-fifo-before-picking">Verify FIFO Before Picking</h2>
+
+<p>A warehouse manager reviews inventory for an item and confirms that the oldest stock appears first in the FIFO sequence before generating warehouse picks.</p>
+
+<hr />
+
+<h2 id="investigate-unexpected-stock-consumption">Investigate Unexpected Stock Consumption</h2>
+
+<p>A user reviews warehouse inventory to determine why a specific lot, serial number, or bin was selected by the FIFO engine.</p>
+
+<hr />
+
+<h2 id="validate-go-live-preparation">Validate Go-Live Preparation</h2>
+
+<p>After initialization activities have been completed, inventory controllers review the Warehouse Inventory page to verify FIFO ordering before activating the solution company-wide.</p>
+
+<hr />
+
+<h2 id="analyze-remaining-fifo-inventory">Analyze Remaining FIFO Inventory</h2>
+
+<p>Users review current inventory layers and identify which stock remains available for future warehouse consumption.</p>
+
+<hr />
+
+<h1 id="user-benefits">User Benefits</h1>
+
+<p>The Warehouse Inventory page provides:</p>
+
+<ul>
+  <li>Full visibility of FIFO inventory.</li>
+  <li>Transparency of warehouse pick decisions.</li>
+  <li>Easier troubleshooting of warehouse operations.</li>
+  <li>Validation support during deployment and maintenance activities.</li>
+  <li>Improved confidence in FIFO stock rotation processes.</li>
+</ul>
+
+<hr />
+
+<h1 id="process-flow">Process Flow</h1>
+
+<pre><code class="language-mermaid">flowchart TD
+
+A[User Opens Warehouse Inventory]
+--&gt; B[Review Available Inventory]
+
+B --&gt; C[Review Stock-in DateTime]
+
+C --&gt; D[Identify FIFO Sequence]
+
+D --&gt; E[Validate Expected Consumption Order]
+
+E --&gt; F[Generate Warehouse Pick]
+
+F --&gt; G[FIFO Engine Consumes Oldest Inventory]
+</code></pre>
+
+<hr />
+
+<h1 id="key-concept">Key Concept</h1>
+
+<p>The Warehouse Inventory page is a <strong>visibility and control page</strong>. It does not itself perform FIFO calculations but presents the inventory data used by the FIFO engine. Users can therefore understand, validate, and troubleshoot the inventory sequence that will drive warehouse pick generation and stock consumption.</p>
 
               </div>
             </div>
