@@ -24,7 +24,7 @@
     <meta name="twitter:title" content="Syntoralis Numérique responsable, éthique, conforme">
     <meta name="twitter:description" content="Progiciels et accompagnement numérique responsable pour entreprises et particuliers. Conformité, RSE, sobriété, accessibilité.">
     <meta name="twitter:image" content="https://syntoralis.eu/img/logo-syntoralis.rs.png">
-    <title>Syntoralis FIFO Logistic - FIFO Setup</title>
+    <title>Syntoralis FIFO Logistic - Processus de Recalcul FIFO</title>
     <link rel="stylesheet" href="/BCApps/assets/css/style.css">
     <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
@@ -146,242 +146,356 @@
           <div class="row">
             <div class="col">
               <div class="card">
-                <h1 id="fifo-setup">FIFO Setup</h1>
+                <h1 id="processus-de-recalcul-fifo">Processus de Recalcul FIFO</h1>
 
-<h2 id="purpose">Purpose</h2>
+<h2 id="objectif">Objectif</h2>
 
-<p>The FIFO Setup controls the activation and operation of the Syntoralis FIFO Logistic extension. It provides a centralized configuration point for enabling FIFO warehouse management and works in conjunction with the FIFO settings available on individual Locations.</p>
+<p>Le processus de <strong>Recalcul FIFO</strong> permet d’initialiser ou de reconstruire l’ensemble des données FIFO à partir de l’historique existant des mouvements d’entrepôt.</p>
 
-<p>The objective is to ensure inventory is consumed according to the oldest stock-in movement date and time while maintaining compatibility with standard Business Central warehouse processes.</p>
+<p>Cette opération est indispensable lors de la mise en service de la solution FIFO sur un environnement déjà utilisé, car les mouvements historiques ne contiennent pas initialement les informations nécessaires au moteur FIFO.</p>
 
-<hr />
-
-<h1 id="global-fifo-activation">Global FIFO Activation</h1>
-
-<h2 id="activate">Activate</h2>
-
-<h3 id="purpose-1">Purpose</h3>
-
-<p>The <strong>Activate</strong> field is the global activation switch of the FIFO solution. It determines whether the FIFO engine is operational within the company.</p>
-
-<p>When disabled, the extension remains installed, but FIFO processing is not executed. Standard Business Central warehouse behavior continues to apply. When enabled, FIFO functionality becomes available for locations configured to use FIFO stock rotation.</p>
-
-<h3 id="activation-prerequisite">Activation Prerequisite</h3>
-
-<p>Before the <strong>Activate</strong> field can be enabled, the FIFO initialization must be completed for all applicable locations.</p>
-
-<p>The FIFO Setup activation is only intended to be performed once the warehouse data has been prepared and all locations have been successfully processed through the <strong>Recompute</strong> function. This ensures that FIFO data is initialized and ready for operational use.</p>
-
-<blockquote>
-  <p><strong>Important:</strong> The Recompute process must be completed on all locations before activating the FIFO solution. The details of the Recompute process are documented separately.</p>
-</blockquote>
-
-<h3 id="business-role">Business Role</h3>
-
-<p>The field allows administrators to:</p>
+<p>Le recalcul permet notamment de :</p>
 
 <ul>
-  <li>Activate the FIFO solution during go-live.</li>
-  <li>Temporarily suspend FIFO processing for maintenance purposes.</li>
-  <li>Control company-wide deployment of the FIFO engine.</li>
-  <li>Enable FIFO warehouse operations once initialization activities have been completed.</li>
+  <li>Reconstituer les couches FIFO historiques.</li>
+  <li>Déterminer la quantité restante de chaque mouvement d’entrée.</li>
+  <li>Calculer les dates de stock FIFO (<em>Stock-in DateTime</em>).</li>
+  <li>Mettre à jour les informations FIFO utilisées lors des prélèvements.</li>
+  <li>Garantir la cohérence des données avant l’activation de la solution.</li>
 </ul>
 
-<h3 id="design-rule-fs000">Design Rule FS000</h3>
-
-<p>The <strong>Activate</strong> field must be enabled before any warehouse can operate under FIFO stock-in movement logic. It acts as the application-level prerequisite for all FIFO processes.</p>
-
-<h3 id="design-rule-fs000a">Design Rule FS000A</h3>
-
-<p>The <strong>Activate</strong> field must remain disabled until FIFO initialization has been completed through the Recompute function for all locations included in the FIFO scope.</p>
-
 <hr />
 
-<h1 id="location-fifo-activation">Location FIFO Activation</h1>
+<h1 id="quand-exécuter-le-recalcul-">Quand exécuter le recalcul ?</h1>
 
-<h2 id="pick-stock-in-movement">Pick Stock-in Movement</h2>
+<p>Le recalcul doit être exécuté dans les situations suivantes :</p>
 
-<h3 id="purpose-2">Purpose</h3>
+<h2 id="mise-en-service-initiale">Mise en service initiale</h2>
 
-<p>The <strong>Pick Stock-in Movement</strong> field acts as the location-level activation switch. It determines whether FIFO stock rotation is applied to a specific warehouse location.</p>
+<p>Lors du premier déploiement de la solution FIFO sur une base de données existante.</p>
 
-<h3 id="design-rule-fs001">Design Rule FS001</h3>
+<h2 id="réinitialisation-des-données-fifo">Réinitialisation des données FIFO</h2>
 
-<p>FIFO processing is applied only when both conditions are met:</p>
+<p>Après correction ou reconstruction des données de stock.</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FIFO Setup.Activate = TRUE
-AND
-Location.Pick Stock-in Movement = TRUE
-</code></pre></div></div>
+<h2 id="vérification-de-cohérence">Vérification de cohérence</h2>
 
-<p>If either condition is not met, standard Business Central warehouse logic is used.</p>
-
-<hr />
-
-<h1 id="automatic-configuration-rules">Automatic Configuration Rules</h1>
-
-<h2 id="fs002---pick-bin-policy">FS002 - Pick Bin Policy</h2>
-
-<p>When FIFO is enabled for a location, the system automatically enforces:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Pick Bin Policy = Bin Ranking
-</code></pre></div></div>
-
-<p>This ensures that warehouse picks are generated according to FIFO priorities rather than standard bin selection methods.</p>
-
-<hr />
-
-<h2 id="fs003---default-bin-selection">FS003 - Default Bin Selection</h2>
-
-<p>When FIFO is activated, the system clears:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Default Bin Selection
-</code></pre></div></div>
-
-<p>This prevents warehouse transactions from bypassing FIFO inventory rotation through predefined default-bin rules.</p>
-
-<hr />
-
-<h2 id="fs004---bin-restrictions">FS004 - Bin Restrictions</h2>
-
-<p>FIFO-enabled locations cannot use:</p>
+<p>Lorsque des incohérences sont détectées entre :</p>
 
 <ul>
-  <li>Default Bins</li>
-  <li>Fixed Bins</li>
-  <li>Dedicated Bins</li>
+  <li>les entrées entrepôt,</li>
+  <li>les contenus d’emplacement,</li>
+  <li>les quantités FIFO restantes.</li>
 </ul>
-
-<p>These warehouse configurations can conflict with FIFO stock rotation principles and therefore are not supported.</p>
 
 <hr />
 
-<h1 id="fifo-tracking-configuration">FIFO Tracking Configuration</h1>
+<h1 id="principe-de-fonctionnement">Principe de fonctionnement</h1>
 
-<h2 id="stock-in-datetime">Stock-in DateTime</h2>
+<p>Le moteur FIFO ne modifie pas les mouvements d’origine.</p>
 
-<p>The extension adds a custom field on Bin Content:</p>
+<p>À la place, il rejoue chronologiquement l’historique des mouvements d’entrepôt afin de reconstruire l’état FIFO attendu.</p>
+
+<p>Pour chaque mouvement :</p>
+
+<ul>
+  <li>les entrées alimentent les couches FIFO ;</li>
+  <li>les sorties consomment les couches FIFO les plus anciennes ;</li>
+  <li>les quantités restantes sont recalculées ;</li>
+  <li>les dates FIFO sont mises à jour.</li>
+</ul>
+
+<p>À la fin du traitement, le système retrouve le même niveau de stock que l’existant mais avec des informations FIFO totalement reconstruites.</p>
+
+<hr />
+
+<h1 id="étapes-du-processus">Étapes du processus</h1>
+
+<h2 id="étape-1---initialisation">Étape 1 - Initialisation</h2>
+
+<p>Le système initialise le traitement pour le magasin sélectionné.</p>
+
+<p>Actions effectuées :</p>
+
+<ul>
+  <li>Vérification de la configuration FIFO.</li>
+  <li>Lecture du dernier numéro de mouvement traité.</li>
+  <li>Verrouillage éventuel du traitement pour éviter les exécutions simultanées.</li>
+</ul>
+
+<hr />
+
+<h2 id="étape-2---nettoyage-des-données-fifo">Étape 2 - Nettoyage des données FIFO</h2>
+
+<p>Le système supprime ou réinitialise les informations FIFO calculées précédemment.</p>
+
+<p>Exemples :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Open
+Remaining Qty
+Stock-in DateTime
+</code></pre></div></div>
+
+<p>Cette étape garantit que le recalcul repart d’un état propre.</p>
+
+<hr />
+
+<h2 id="étape-3---lecture-des-entrées-dentrepôt">Étape 3 - Lecture des entrées d’entrepôt</h2>
+
+<p>Le système relit l’ensemble des mouvements d’entrepôt dans l’ordre chronologique.</p>
+
+<p>Ordre de traitement :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Date
+Heure
+Numéro d'entrée
+</code></pre></div></div>
+
+<p>Chaque mouvement est analysé afin de déterminer son impact sur les couches FIFO.</p>
+
+<hr />
+
+<h2 id="étape-4---reconstruction-des-couches-fifo">Étape 4 - Reconstruction des couches FIFO</h2>
+
+<p>Pour chaque mouvement positif :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Entrée stock
+Réception
+Mouvement entrant
+</code></pre></div></div>
+
+<p>le système :</p>
+
+<ul>
+  <li>crée une couche FIFO ;</li>
+  <li>marque la couche comme ouverte ;</li>
+  <li>initialise la quantité restante ;</li>
+  <li>calcule la date de stock FIFO.</li>
+</ul>
+
+<p>Exemple :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Entrée 100 unités
+=
+Open = Oui
+Remaining Qty = 100
+Stock-in DateTime = Date/Heure du mouvement
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="étape-5---consommation-fifo">Étape 5 - Consommation FIFO</h2>
+
+<p>Pour chaque mouvement négatif :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Prélèvement
+Expédition
+Mouvement sortant
+</code></pre></div></div>
+
+<p>le système recherche la couche FIFO ouverte la plus ancienne.</p>
+
+<p>La consommation est effectuée selon la règle suivante :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Premier Entré
+Premier Sorti
+</code></pre></div></div>
+
+<p>La quantité restante de chaque couche est décrémentée jusqu’à consommation complète du mouvement.</p>
+
+<hr />
+
+<h2 id="étape-6---mise-à-jour-des-contenus-demplacement">Étape 6 - Mise à jour des contenus d’emplacement</h2>
+
+<p>Une fois les couches FIFO reconstruites, le système met à jour les contenus d’emplacement.</p>
+
+<p>Champ mis à jour :</p>
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LIS-LOG-FIFO Stock-in DateTime
 </code></pre></div></div>
 
-<p>This field stores the timestamp of the stock-in movement associated with the inventory available in the bin. It serves as the primary FIFO sorting criterion used during warehouse pick generation.</p>
-
-<h3 id="fifo-sorting-rule">FIFO Sorting Rule</h3>
-
-<p>Inventory is always selected according to:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Oldest Stock-in DateTime First
-</code></pre></div></div>
-
-<p>This guarantees FIFO stock consumption regardless of the physical bin where inventory is stored.</p>
+<p>Cette information sera ensuite utilisée lors de la génération des prélèvements FIFO.</p>
 
 <hr />
 
-<h1 id="fifo-monitoring-fields">FIFO Monitoring Fields</h1>
+<h2 id="étape-7---finalisation">Étape 7 - Finalisation</h2>
 
-<p>The following fields are maintained on the Location record:</p>
+<p>Une fois le traitement terminé :</p>
+
+<ul>
+  <li>le magasin est marqué comme recalculé ;</li>
+  <li>la date du dernier recalcul est enregistrée ;</li>
+  <li>le dernier numéro d’entrée traité est mémorisé.</li>
+</ul>
+
+<p>Les champs suivants sont mis à jour :</p>
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LIS-LOG-FIFO RecomputeDone
 LIS-LOG-FIFO RecomputeDateTime
 LIS-LOG-FIFO Re. MaxEntryNo
 </code></pre></div></div>
 
-<p>These fields are used internally to monitor FIFO initialization status.</p>
+<hr />
+
+<h1 id="file-dattente-de-recalcul">File d’attente de recalcul</h1>
+
+<p>Le recalcul est géré via une file d’attente dédiée pour chaque magasin. (Créer depuis les Paramètres FIFO.)</p>
+
+<p>Chaque demande contient notamment :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Code magasin
+Nombre max d'itération
+Réinitialiser 
+Utilisateur
+Statut
+</code></pre></div></div>
+
+<p>États possibles :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Pending
+Processing
+Completed
+Failed
+</code></pre></div></div>
+
+<p>Le Nombre max d’itération permet d’éviter un recalcul massif et de segmenter celle-ci par lot. Si le traitement n’est pas arrivée à la dernière ligne d’écriture entrepot alors un nouveau traitement est disponible.
+Réinitialiser permet de repartir de zéro pour ce magasin l’ensemble de l’historique est alors recalculé.</p>
+
+<p>Cette approche permet de traiter les recalculs en arrière-plan sans bloquer les utilisateurs.</p>
 
 <hr />
 
-<h1 id="setup-procedure">Setup Procedure</h1>
+<h1 id="règles-métier">Règles métier</h1>
 
-<h2 id="step-1">Step 1</h2>
+<h2 id="rc001">RC001</h2>
 
-<p>Execute the FIFO Recompute function for all locations that will use FIFO processing.</p>
+<p>Le recalcul doit être exécuté avant l’activation globale du FIFO dans les paramètres FIFO.</p>
 
-<h2 id="step-2">Step 2</h2>
+<h2 id="rc002">RC002</h2>
 
-<p>Validate that all locations have successfully completed the initialization process.</p>
+<p>Un magasin ne peut pas être utilisé en FIFO tant que son recalcul n’est pas terminé.</p>
 
-<h2 id="step-3">Step 3</h2>
+<h2 id="rc003">RC003</h2>
 
-<p>Open the FIFO Setup page and enable:</p>
+<p>Le recalcul reconstruit les données FIFO mais ne modifie jamais les mouvements historiques.</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Activate = TRUE
-</code></pre></div></div>
+<h2 id="rc004">RC004</h2>
 
-<h2 id="step-4">Step 4</h2>
+<p>Les quantités FIFO restantes doivent correspondre exactement au stock disponible à la fin du traitement.</p>
 
-<p>Open the Location Card for each warehouse location that must use FIFO logic.</p>
+<h2 id="rc005">RC005</h2>
 
-<h2 id="step-5">Step 5</h2>
+<p>Le stock est toujours consommé selon la couche FIFO ouverte la plus ancienne.</p>
 
-<p>Enable:</p>
+<h2 id="rc006">RC006</h2>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Pick Stock-in Movement = TRUE
-</code></pre></div></div>
+<p>La date FIFO des contenus d’emplacement doit correspondre à la couche FIFO disponible la plus ancienne pour cet article.</p>
 
-<h2 id="step-6">Step 6</h2>
+<hr />
 
-<p>Verify that the system uses:</p>
+<h1 id="contrôles-recommandés-après-recalcul">Contrôles recommandés après recalcul</h1>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Pick Bin Policy = Bin Ranking
-</code></pre></div></div>
-
-<h2 id="step-7">Step 7</h2>
-
-<p>Verify that the location does not use:</p>
+<p>Après exécution du recalcul, il est recommandé de vérifier :</p>
 
 <ul>
-  <li>Fixed Bins</li>
-  <li>Dedicated Bins</li>
-  <li>Default Bins</li>
+  <li>L’absence d’erreur dans la file d’attente.</li>
+  <li>Le statut <strong>Recompute Done</strong> des emplacements.</li>
+  <li>Les dates de recalcul.</li>
+  <li>La cohérence entre les stocks physiques et les quantités FIFO restantes.</li>
+  <li>La présence d’une valeur <strong>Stock-in DateTime</strong> sur les contenus d’emplacement.</li>
 </ul>
 
 <hr />
 
-<h1 id="configuration-flow">Configuration Flow</h1>
+<h1 id="procédure-de-mise-en-œuvre">Procédure de mise en œuvre</h1>
+
+<h2 id="étape-1">Étape 1</h2>
+
+<p>Ouvrir la fiche de l’emplacement.</p>
+
+<h2 id="étape-2">Étape 2</h2>
+
+<p>Lancer l’action :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Recompute FIFO
+</code></pre></div></div>
+
+<h2 id="étape-3">Étape 3</h2>
+
+<p>Attendre la fin du traitement.</p>
+
+<h2 id="étape-4">Étape 4</h2>
+
+<p>Vérifier :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Recompute Done = TRUE
+</code></pre></div></div>
+
+<h2 id="étape-5">Étape 5</h2>
+
+<p>Contrôler :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Recompute DateTime
+</code></pre></div></div>
+
+<h2 id="étape-6">Étape 6</h2>
+
+<p>Répéter l’opération pour l’ensemble des emplacements inclus dans le périmètre FIFO.</p>
+
+<h2 id="étape-7">Étape 7</h2>
+
+<p>Une fois tous les emplacements recalculés, activer :</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FIFO Setup -&gt; Activate = TRUE
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="flux-de-recalcul">Flux de recalcul</h1>
 
 <pre><code class="language-mermaid">flowchart TD
 
-A[Run Recompute on All Locations]
---&gt; B[Validation Completed]
+A[Lancement du recalcul]
+--&gt; B[Nettoyage des données FIFO]
 
-B --&gt; C[Enable FIFO Setup Activate]
+B --&gt; C[Lecture des mouvements d'entrepôt]
 
-C --&gt; D[Location Setup]
+C --&gt; D[Mouvement entrant ?]
 
-D --&gt; E{Pick Stock-in Movement}
+D --&gt;|Oui| E[Création d'une couche FIFO]
 
-E --&gt;|No| F[Standard Business Central Logic]
+D --&gt;|Non| F[Consommation des couches FIFO]
 
-E --&gt;|Yes| G[FIFO Engine Enabled]
+E --&gt; G[Mise à jour des quantités restantes]
 
-G --&gt; H[Track Stock-in DateTime]
+F --&gt; G
 
-H --&gt; I[Sort Oldest Inventory First]
+G --&gt; H[Mise à jour des contenus d'emplacement]
 
-I --&gt; J[Create FIFO Warehouse Picks]
+H --&gt; I[Mise à jour des indicateurs de recalcul]
+
+I --&gt; J[Recalcul terminé]
 </code></pre>
 
 <hr />
 
-<h1 id="key-concept">Key Concept</h1>
+<h1 id="concept-clé">Concept clé</h1>
 
-<p>The FIFO solution operates on three mandatory stages:</p>
+<p>Le recalcul FIFO constitue la fondation de la solution.</p>
 
-<h3 id="1-recompute-locations">1. Recompute locations</h3>
-<p>Initialize FIFO data for all locations.</p>
+<p>Sans recalcul :</p>
 
-<h3 id="2-fifo-setup--activate">2. FIFO Setup → Activate</h3>
-<p>Enable the FIFO engine at company level.</p>
+<ul>
+  <li>aucune couche FIFO fiable n’existe ;</li>
+  <li>les dates FIFO ne sont pas disponibles ;</li>
+  <li>les prélèvements FIFO ne peuvent pas être garantis.</li>
+</ul>
 
-<h3 id="3-location--pick-stock-in-movement">3. Location → Pick Stock-in Movement</h3>
-<p>Enable FIFO processing for a specific warehouse location.</p>
-
-<p>Only when all prerequisites are met does the system apply FIFO stock consumption rules based on Stock-in DateTime and generate FIFO-compliant warehouse picks.</p>
+<p>Le processus de recalcul est donc une étape obligatoire avant l’activation de la solution et avant toute utilisation opérationnelle des fonctionnalités FIFO.</p>
 
 <hr />
 
-<p><a href="./index-en.html">Index</a></p>
+<p><a href="./index.html">Index</a></p>
 
               </div>
             </div>
