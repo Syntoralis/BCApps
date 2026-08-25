@@ -204,25 +204,24 @@ Vérifier que l’emplacement n’utilise pas :
 
 ```mermaid
 flowchart TD
+    A[Exécuter le recalcul FIFO sur tous les emplacements]
+    --> B[Validation terminée]
 
-A[Exécuter le recalcul FIFO sur tous les emplacements]
---> B[Validation terminée]
+    B --> C[Activer le paramétrage FIFO]
 
-B --> C[Activer le paramétrage FIFO]
+    C --> D[Paramétrage de l'emplacement]
 
-C --> D[Paramétrage de l'emplacement]
+    D --> E{Prise FIFO sur mouvement d'entrée ?}
 
-D --> E{Prise FIFO sur mouvement d'entrée ?}
+    E -->|Non| F[Logique standard Business Central]
 
-E -->|Non| F[Logique standard Business Central]
+    E -->|Oui| G[Moteur FIFO activé]
 
-E -->|Oui| G[Moteur FIFO activé]
+    G --> H[Suivi du Stock-in DateTime]
 
-G --> H[Suivi du Stock-in DateTime]
+    H --> I[Sélection du stock le plus ancien]
 
-H --> I[Sélection du stock le plus ancien]
-
-I --> J[Création des prélèvements FIFO]
+    I --> J[Création des prélèvements FIFO]
 ```
 
 ---
