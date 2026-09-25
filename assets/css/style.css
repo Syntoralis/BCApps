@@ -438,7 +438,7 @@ footer {
 [data-theme="dark"] .mermaid .actor,
 [data-theme="dark"] .mermaid .note,
 [data-theme="dark"] .mermaid .label {
-  fill: var(--card-bg) !important;
+  fill: var(--card-bg) !important; 
 }
 
 [data-theme="dark"] .mermaid .edgeLabel {
@@ -450,6 +450,14 @@ footer {
   color: #ffffff !important;
 }
 
+[data-theme="dark"] #mermaid-1790344917603 .label text, #mermaid-1790344917603 span {
+  fill: var(--card-bg) !important;
+  color: var(--text-color) !important;
+}
+
+[data-theme="dark"]#mermaid-1790344917603 .edgeLabel p {
+    background-color: var(--card-bg);
+}
 
 footer p { margin: 0.5rem 0; }
 footer a { text-decoration: none; }
