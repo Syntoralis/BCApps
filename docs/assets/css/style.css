@@ -450,13 +450,32 @@ footer {
   color: #ffffff !important;
 }
 
-[data-theme="dark"] #mermaid-1790344917603 .label text, #mermaid-1790344917603 span {
-  fill: var(--card-bg) !important;
-  color: var(--text-color) !important;
+/* More robust Mermaid overrides (avoid ID-specific rules which change on build)
+   Targets SVG text/tspan and HTML inside foreignObject (edge labels) */
+[data-theme="dark"] .mermaid svg text,
+[data-theme="dark"] .mermaid svg tspan,
+[data-theme="dark"] .mermaid .label text,
+[data-theme="dark"] .mermaid .label tspan,
+[data-theme="dark"] .mermaid .node text,
+[data-theme="dark"] .mermaid .node tspan {
+  fill: #ffffff !important;
+  color: #ffffff !important;
 }
 
-[data-theme="dark"]#mermaid-1790344917603 .edgeLabel p {
-    background-color: var(--card-bg);
+[data-theme="dark"] .mermaid svg foreignObject p,
+[data-theme="dark"] .mermaid .edgeLabel p,
+[data-theme="dark"] .mermaid .edgeLabel span,
+[data-theme="dark"] .mermaid .edgeLabel div {
+  color: #ffffff !important;
+  background: transparent !important;
+}
+
+/* Ensure node backgrounds and strokes remain high-contrast */
+[data-theme="dark"] .mermaid .node rect,
+[data-theme="dark"] .mermaid .cluster rect,
+[data-theme="dark"] .mermaid .note rect {
+  fill: #0b1220 !important;
+  stroke: #69F0AE !important;
 }
 
 footer p { margin: 0.5rem 0; }

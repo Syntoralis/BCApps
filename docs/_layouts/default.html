@@ -43,6 +43,41 @@
       });
 
       await mermaid.run();
+
+      // Post-process Mermaid SVGs to enforce dark-theme AAA contrast.
+      // Some Mermaid builds inject SVG <style> blocks or inline attributes
+      // that are hard to override with CSS. When dark theme is active,
+      // remove those <style> nodes and set explicit fill/stroke attributes
+      // so our CSS and theme colors are respected.
+      try {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || document.querySelector('[data-theme="dark"]');
+        if (isDark) {
+          document.querySelectorAll('.mermaid svg').forEach(svg => {
+            // remove any embedded style blocks inside the SVG
+            svg.querySelectorAll('style').forEach(s => s.remove());
+
+            // force readable text color
+            svg.querySelectorAll('text, tspan').forEach(el => {
+              el.setAttribute('fill', getComputedStyle(document.documentElement).getPropertyValue('--text-color') || '#ffffff');
+              el.style.fill = getComputedStyle(document.documentElement).getPropertyValue('--text-color') || '#ffffff';
+            });
+
+            // force node backgrounds and strokes to high-contrast values
+            svg.querySelectorAll('rect, path, circle, ellipse, polygon, polyline, line').forEach(el => {
+              // prefer dark node fill and bright stroke for contrast
+              if (el.tagName.toLowerCase() === 'rect' || el.classList.contains('node')) {
+                el.setAttribute('fill', '#0b1220');
+                el.style.fill = '#0b1220';
+              }
+              el.setAttribute('stroke', '#69F0AE');
+              el.style.stroke = '#69F0AE';
+              el.style.strokeWidth = '1.25px';
+            });
+          });
+        }
+      } catch (e) {
+        console.warn('Mermaid dark-theme postprocess failed', e);
+      }
     });
     </script>
   </head>
