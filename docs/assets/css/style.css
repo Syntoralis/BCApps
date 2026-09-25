@@ -478,6 +478,43 @@ footer {
   stroke: #69F0AE !important;
 }
 
+/* Light/default theme Mermaid overrides (ensure AAA contrast on light backgrounds)
+   Targets cases where no data-theme or a non-dark theme is active. */
+:not([data-theme="dark"]) .mermaid,
+:not([data-theme="dark"]) .mermaid svg {
+  background: transparent !important;
+  color: var(--text-color) !important;
+}
+
+:not([data-theme="dark"]) .mermaid svg text,
+:not([data-theme="dark"]) .mermaid svg tspan,
+:not([data-theme="dark"]) .mermaid .label text,
+:not([data-theme="dark"]) .mermaid .label tspan,
+:not([data-theme="dark"]) .mermaid .node text,
+:not([data-theme="dark"]) .mermaid .node tspan {
+  fill: var(--text-color) !important;
+  color: var(--text-color) !important;
+}
+
+:not([data-theme="dark"]) .mermaid svg foreignObject p,
+:not([data-theme="dark"]) .mermaid .edgeLabel p,
+:not([data-theme="dark"]) .mermaid .edgeLabel span,
+:not([data-theme="dark"]) .mermaid .edgeLabel div {
+  color: var(--text-color) !important;
+  background: transparent !important;
+}
+
+:not([data-theme="dark"]) .mermaid .node rect,
+:not([data-theme="dark"]) .mermaid .cluster rect,
+:not([data-theme="dark"]) .mermaid .note rect {
+  fill: var(--card-bg) !important;
+  stroke: var(--accent-color) !important;
+}
+
+:not([data-theme="dark"]) .mermaid [style] {
+  color: var(--text-color) !important;
+}
+
 footer p { margin: 0.5rem 0; }
 footer a { text-decoration: none; }
 footer a:hover { text-decoration: underline; }
