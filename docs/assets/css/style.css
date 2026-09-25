@@ -412,7 +412,7 @@ footer {
 
 [data-theme="dark"] .mermaid svg text,
 [data-theme="dark"] .mermaid .label,
-[data-theme="dark"] .mermaid .edgeLabel .label,
+[data-theme="dark"] .mermaid .edgeLabel .label .nodeLabel, 
 [data-theme="dark"] .mermaid .title,
 [data-theme="dark"] .mermaid .legend {
   fill: #ffffff !important; /* white text for maximum contrast */
@@ -438,7 +438,7 @@ footer {
 [data-theme="dark"] .mermaid .actor,
 [data-theme="dark"] .mermaid .note,
 [data-theme="dark"] .mermaid .label {
-  fill: #0b1220 !important;
+  fill: var(--card-bg) !important;
 }
 
 [data-theme="dark"] .mermaid .edgeLabel {
