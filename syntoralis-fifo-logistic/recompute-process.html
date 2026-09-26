@@ -99,6 +99,19 @@
               el.style.strokeWidth = '1.25px';
             } catch (e) {}
           });
+
+          // Normalize marker arrowheads inside <marker> elements (common source of black fills)
+          try {
+            svg.querySelectorAll('marker path, marker polygon, marker g path').forEach(m => {
+              try {
+                m.setAttribute('fill', 'none');
+                m.style.fill = 'none';
+                m.setAttribute('stroke', accent);
+                m.style.stroke = accent;
+                m.style.strokeWidth = '1.25px';
+              } catch (e) {}
+            });
+          } catch (e) {}
         });
       } catch (e) {
         console.warn('Mermaid postprocess failed', e);
