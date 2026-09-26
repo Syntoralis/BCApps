@@ -463,6 +463,22 @@ footer {
 }
 
 [data-theme="dark"] .mermaid svg foreignObject p,
+
+/* Handle lozenges/diamond shapes and other polygon-based nodes */
+[data-theme="dark"] .mermaid .node polygon,
+[data-theme="dark"] .mermaid .node path.mermaid-shape,
+[data-theme="dark"] .mermaid .node polyline {
+  fill: #0b1220 !important;
+  stroke: #69F0AE !important;
+}
+
+/* Edges and arrowheads: no filled black backgrounds */
+[data-theme="dark"] .mermaid .edgePath path,
+[data-theme="dark"] .mermaid .arrowheadPath,
+[data-theme="dark"] .mermaid .edgeLabel polygon {
+  fill: none !important;
+  stroke: #93C5FD !important;
+}
 [data-theme="dark"] .mermaid .edgeLabel p,
 [data-theme="dark"] .mermaid .edgeLabel span,
 [data-theme="dark"] .mermaid .edgeLabel div {
@@ -508,6 +524,22 @@ footer {
 :not([data-theme="dark"]) .mermaid .cluster rect,
 :not([data-theme="dark"]) .mermaid .note rect {
   fill: var(--card-bg) !important;
+  stroke: var(--accent-color) !important;
+}
+
+/* Light theme: polygons/lozenges */
+:not([data-theme="dark"]) .mermaid .node polygon,
+:not([data-theme="dark"]) .mermaid .node path.mermaid-shape,
+:not([data-theme="dark"]) .mermaid .node polyline {
+  fill: var(--card-bg) !important;
+  stroke: var(--accent-color) !important;
+}
+
+/* Light theme: edges/arrowheads */
+:not([data-theme="dark"]) .mermaid .edgePath path,
+:not([data-theme="dark"]) .mermaid .arrowheadPath,
+:not([data-theme="dark"]) .mermaid .edgeLabel polygon {
+  fill: none !important;
   stroke: var(--accent-color) !important;
 }
 
