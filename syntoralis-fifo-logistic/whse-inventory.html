@@ -55,26 +55,24 @@
         const cardBg = (computed.getPropertyValue('--card-bg') || '#fff').trim();
         const accent = (computed.getPropertyValue('--accent-color') || '#1B5E20').trim();
 
-        document.querySelectorAll('.mermaid svg').forEach(svg => {
-          // remove any embedded style blocks inside the SVG
+        const normalizeSvg = (svg) => {
+          if (!svg || !(svg instanceof SVGElement)) return;
+          // remove embedded style blocks
           svg.querySelectorAll('style').forEach(s => s.remove());
 
-          // force readable text color using theme variable
+          // text
           svg.querySelectorAll('text, tspan').forEach(el => {
             try { el.setAttribute('fill', textColor); } catch(e){}
             try { el.style.fill = textColor; } catch(e){}
           });
 
-          // Normalize shapes: replace black fills and set theme-based fills/strokes
+          // shapes: replace black fills and set theme-based fills/strokes
           svg.querySelectorAll('rect, polygon, polyline, circle, ellipse, path, line').forEach(el => {
             try {
-              const tag = el.tagName.toLowerCase();
               const rawFill = (el.getAttribute('fill') || '').toLowerCase();
-              const computedFill = getComputedStyle(el).fill || rawFill;
+              const computedFill = (el.style && el.style.fill) || rawFill;
 
-              // If Mermaid injected a black fill, replace with card background
               if (rawFill === '#000' || rawFill === '#000000' || rawFill === 'black' || (computedFill && computedFill.indexOf('#000') === 0)) {
-                // For node shapes, use card background; for edges use none
                 const isNodeShape = el.closest && el.closest('.node');
                 if (isNodeShape) {
                   el.setAttribute('fill', cardBg);
@@ -85,7 +83,6 @@
                 }
               }
 
-              // Arrowheads: ensure no fill and use accent stroke
               if (el.classList && el.classList.contains('arrowheadPath')) {
                 el.setAttribute('fill', 'none');
                 el.style.fill = 'none';
@@ -93,16 +90,15 @@
                 el.style.stroke = accent;
               }
 
-              // Default: ensure visible stroke using theme accent
               el.setAttribute('stroke', accent);
               el.style.stroke = accent;
               el.style.strokeWidth = '1.25px';
             } catch (e) {}
           });
 
-          // Normalize marker arrowheads inside <marker> elements (common source of black fills)
+          // markers
           try {
-            svg.querySelectorAll('marker path, marker polygon, marker g path').forEach(m => {
+            svg.querySelectorAll('marker path, marker polygon, marker g path, marker g polygon').forEach(m => {
               try {
                 m.setAttribute('fill', 'none');
                 m.style.fill = 'none';
@@ -112,7 +108,29 @@
               } catch (e) {}
             });
           } catch (e) {}
+        };
+
+        // Normalize existing mermaid svgs
+        document.querySelectorAll('.mermaid svg').forEach(svg => normalizeSvg(svg));
+
+        // Watch for newly inserted/changed Mermaid SVGs (Mermaid may re-render later)
+        const mo = new MutationObserver((mutations) => {
+          for (const m of mutations) {
+            if (m.type === 'childList') {
+              m.addedNodes.forEach(node => {
+                if (node instanceof Element) {
+                  node.querySelectorAll && node.querySelectorAll('.mermaid svg').forEach(svg => normalizeSvg(svg));
+                  if (node.matches && node.matches('.mermaid svg')) normalizeSvg(node);
+                }
+              });
+            } else if (m.type === 'attributes' && m.target) {
+              const t = m.target;
+              if (t.matches && t.matches('.mermaid svg')) normalizeSvg(t);
+            }
+          }
         });
+
+        mo.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
       } catch (e) {
         console.warn('Mermaid postprocess failed', e);
       }
