@@ -152,6 +152,25 @@
         });
 
         mo.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+        // Force-open footer external links (capture phase) to work even if other scripts call preventDefault
+        try {
+          const forceOpenHandler = (e) => {
+            const t = e.target.closest && e.target.closest('a');
+            if (!t) return;
+            if (t.classList && (t.classList.contains('legal-toggle-link') || t.classList.contains('cgvb2b-toggle-link'))) {
+              try {
+                const href = t.getAttribute('href');
+                if (!href) return;
+                // Stop other handlers and open explicitly
+                e.stopImmediatePropagation && e.stopImmediatePropagation();
+                e.preventDefault && e.preventDefault();
+                window.open(href, '_blank', 'noopener,noreferrer');
+              } catch (err) {}
+            }
+          };
+
+          document.addEventListener('click', forceOpenHandler, { capture: true });
+        } catch (e) {}
       } catch (e) {
         console.warn('Mermaid postprocess failed', e);
       }
