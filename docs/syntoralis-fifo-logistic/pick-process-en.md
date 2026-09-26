@@ -337,7 +337,7 @@ G --> H{Sufficient quantity ?}
 
 H -->|Yes| I[Create lines]
 
-H -->|No| J[Automatic splitting]
+H -->|No | J[Automatic splitting]
 
 J --> I
 

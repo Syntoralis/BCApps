@@ -337,7 +337,7 @@ G --> H{Quantité suffisante ?}
 
 H -->|Oui| I[Création des lignes]
 
-H -->|Non| J[Fractionnement automatique]
+H -->|Non | J[Fractionnement automatique]
 
 J --> I
 
