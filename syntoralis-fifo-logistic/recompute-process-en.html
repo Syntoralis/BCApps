@@ -84,15 +84,19 @@
               }
 
               if (el.classList && el.classList.contains('arrowheadPath')) {
-                el.setAttribute('fill', 'none');
-                el.style.fill = 'none';
+                el.setAttribute('fill', 'transparent');
+                el.style.fill = 'transparent';
                 el.setAttribute('stroke', accent);
                 el.style.stroke = accent;
               }
 
-              el.setAttribute('stroke', accent);
-              el.style.stroke = accent;
-              el.style.strokeWidth = '1.25px';
+              // Ensure explicit inline styles per user request for robust overrides
+              try { el.style.stroke = 'rgb(27, 94, 32)'; } catch (e) {}
+              try { el.style.strokeWidth = '1.25px'; } catch (e) {}
+              try { el.style.fill = 'transparent'; } catch (e) {}
+              try { el.setAttribute('stroke', 'rgb(27,94,32)'); } catch (e) {}
+              try { el.setAttribute('stroke-width', '1.25px'); } catch (e) {}
+              try { el.setAttribute('fill', 'transparent'); } catch (e) {}
             } catch (e) {}
           });
 
@@ -105,6 +109,23 @@
                 m.setAttribute('stroke', accent);
                 m.style.stroke = accent;
                 m.style.strokeWidth = '1.25px';
+              } catch (e) {}
+            });
+          } catch (e) {}
+
+          // Explicitly force inline styles for edge paths (curved links) — robust override
+          try {
+            svg.querySelectorAll('path[data-edge], path.flowchart-link, path[data-et="edge"]').forEach(el => {
+              try {
+                el.style.stroke = 'rgb(27, 94, 32)';
+                el.style.strokeWidth = '1.25px';
+                el.style.fill = 'transparent';
+                // also set presentation attributes to be thorough
+                el.setAttribute('stroke', 'rgb(27,94,32)');
+                el.setAttribute('stroke-width', '1.25px');
+                el.setAttribute('fill', 'transparent');
+                // overwrite full inline style as final fallback
+                el.setAttribute('style', 'stroke: rgb(27, 94, 32); stroke-width: 1.25px; fill: transparent;');
               } catch (e) {}
             });
           } catch (e) {}
