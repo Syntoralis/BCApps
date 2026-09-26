@@ -3,8 +3,6 @@ layout: default
 title: "Bienvenue sur l'aide Syntoralis BCApps"
 ---
 
-En cours
-
-# Accès Rapide (Seulement en anglais)
+# Accéder à l'aide suivant votre extension :
 
 - [Syntoralis FIFO Logistic](./syntoralis-fifo-logistic)
