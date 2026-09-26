@@ -65,13 +65,35 @@
             try { el.style.fill = textColor; } catch(e){}
           });
 
-          // force node backgrounds and strokes to values from CSS vars
-          svg.querySelectorAll('rect, path, circle, ellipse, polygon, polyline, line').forEach(el => {
+          // Normalize shapes: replace black fills and set theme-based fills/strokes
+          svg.querySelectorAll('rect, polygon, polyline, circle, ellipse, path, line').forEach(el => {
             try {
-              if (el.tagName.toLowerCase() === 'rect') {
-                el.setAttribute('fill', cardBg);
-                el.style.fill = cardBg;
+              const tag = el.tagName.toLowerCase();
+              const rawFill = (el.getAttribute('fill') || '').toLowerCase();
+              const computedFill = getComputedStyle(el).fill || rawFill;
+
+              // If Mermaid injected a black fill, replace with card background
+              if (rawFill === '#000' || rawFill === '#000000' || rawFill === 'black' || (computedFill && computedFill.indexOf('#000') === 0)) {
+                // For node shapes, use card background; for edges use none
+                const isNodeShape = el.closest && el.closest('.node');
+                if (isNodeShape) {
+                  el.setAttribute('fill', cardBg);
+                  el.style.fill = cardBg;
+                } else {
+                  el.setAttribute('fill', 'none');
+                  el.style.fill = 'none';
+                }
               }
+
+              // Arrowheads: ensure no fill and use accent stroke
+              if (el.classList && el.classList.contains('arrowheadPath')) {
+                el.setAttribute('fill', 'none');
+                el.style.fill = 'none';
+                el.setAttribute('stroke', accent);
+                el.style.stroke = accent;
+              }
+
+              // Default: ensure visible stroke using theme accent
               el.setAttribute('stroke', accent);
               el.style.stroke = accent;
               el.style.strokeWidth = '1.25px';
