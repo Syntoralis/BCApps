@@ -103,7 +103,7 @@ This produces a pick document compliant with FIFO rules without changing standar
 
 ## Detailed section
 - [Differences from Standard Business Central FIFO](./diff-bc-std-en.html)
-- [Pick Process](./pick-en-process.html)
+- [Pick Process](./pick-process-en.html)
 - [Warehouse Inventory Page](./whse-inventory-en.html)
 - [FIFO Setup](./setup-en.html)
 - [Recompute Process](./recompute-process.html)
