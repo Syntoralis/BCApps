@@ -543,6 +543,33 @@ footer {
   stroke: var(--accent-color) !important;
 }
 
+/* Aggressive override: replace any black fills inside mermaid SVGs (common in markers) */
+.mermaid svg [fill="#000"],
+.mermaid svg [fill="#000000"],
+.mermaid svg [fill="black"],
+.mermaid svg [style*="fill:#000"],
+.mermaid svg [style*="fill:#000000"],
+.mermaid svg [style*="fill:black"] {
+  fill: none !important;
+  background: transparent !important;
+}
+
+/* Ensure marker arrowheads inside SVGs are not filled black */
+.mermaid svg marker path,
+.mermaid svg marker polygon,
+.mermaid svg marker g path,
+.mermaid svg marker g polygon {
+  fill: none !important;
+  stroke: var(--accent-color) !important;
+}
+
+/* Fallback: if arrowheads are painted via 'marker' fill, remove it */
+.mermaid svg defs marker [fill="#000"],
+.mermaid svg defs marker [fill="#000000"],
+.mermaid svg defs marker [fill="black"] {
+  fill: none !important;
+}
+
 :not([data-theme="dark"]) .mermaid [style] {
   color: var(--text-color) !important;
 }
