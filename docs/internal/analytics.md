@@ -48,6 +48,10 @@ clarity_project_id: "xxxxxxxxxx"
 | Pages les plus vues | GA4 | optimiser contenu |
 | Taux de rebond | GA4 | < 60 % |
 
+## Consentement cookies
+
+Les scripts GA4 et Clarity ne se chargent qu'après acceptation via la bannière de cookies (`docs/_includes/cookie-consent.html`). Le choix est stocké dans `localStorage` (`syntoralis_cookie_consent`).
+
 ## Microsoft Clarity
 
 Activer Clarity pour les heatmaps et enregistrements de session. Renseigner `clarity_project_id` dans `_config.yml` (le snippet est déjà intégré dans le layout).
