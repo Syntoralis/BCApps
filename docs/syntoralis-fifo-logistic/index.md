@@ -1,6 +1,9 @@
 ---
 layout: default
 title: "Bienvenue sur l'aide BC Syntoralis FIFO Logistique"
+lang: fr
+description: "Documentation de l'extension Syntoralis FIFO Logistic pour Business Central — prélèvement FIFO."
+alt_url: /syntoralis-fifo-logistic/index-en.html
 ---
 
 # Périmètre couvert
@@ -110,3 +113,8 @@ L'utilisateur obtient ainsi un document de prélèvement conforme aux règles FI
 
 ## Zone de téléchargement
 [MarketPlace App](https://github.com/Syntoralis/BCApps/tree/main/AppSource/Syntoralis-fifo-logistic)
+
+{% include marketplace-link.html label="Acheter sur le Microsoft Marketplace" placement="docs-fr" %}
+
+- [Page de vente](./sales.html)
+- [Essai gratuit 30 jours](./trial.html)

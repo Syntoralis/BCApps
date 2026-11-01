@@ -1,10 +1,21 @@
 title: Syntoralis BCApps
-description: "Docs for BCApps"
+description: "Documentation for Syntoralis Business Central apps — FIFO Logistic engine"
 markdown: kramdown
 plugins:
   - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
 url: "https://syntoralis.github.io"
 baseurl: "/BCApps/"
+lang: fr
+# Microsoft Marketplace offer
+marketplace_url: "https://marketplace.microsoft.com/en-us/product/PUBID.syntoraliseurl1775292660785%7CAID.syntoralis-fifo-logistic%7CPAPPID.11dc3515-69b5-4008-b250-fb7b76a7f281"
+utm_source: "docs"
+utm_medium: "cta"
+utm_campaign: "fifo-logistic"
+# Analytics (placeholders — replace with real IDs)
+ga4_measurement_id: "G-QNNHT4J9SH"
+clarity_project_id: "z6rt2j2qns"
 sass:
   style: compressed
 

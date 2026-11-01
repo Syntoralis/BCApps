@@ -67,6 +67,8 @@ BCApps/
 Moteur de prélèvement **FIFO** pour Business Central : sélection des stocks selon la date/heure réelle d'entrée en stock, pour les prélèvements entrepôt, inventaire, mouvements et réapprovisionnements. Compatible avec les articles suivis par lot, numéro de série et dates d'expiration (FEFO).
 
 - 📖 [Documentation FR](https://syntoralis.github.io/BCApps/syntoralis-fifo-logistic/) · [EN](https://syntoralis.github.io/BCApps/syntoralis-fifo-logistic/index-en.html)
+- 🛒 [Page de vente FR](https://syntoralis.github.io/BCApps/syntoralis-fifo-logistic/sales.html) · [EN](https://syntoralis.github.io/BCApps/syntoralis-fifo-logistic/sales-en.html)
+- 🎁 [Essai gratuit FR](https://syntoralis.github.io/BCApps/syntoralis-fifo-logistic/trial.html) · [EN](https://syntoralis.github.io/BCApps/syntoralis-fifo-logistic/trial-en.html)
 - ⬇️ [Télécharger le .app](https://github.com/Syntoralis/BCApps/tree/main/AppSource/Syntoralis-fifo-logistic)
 ---
 
@@ -189,6 +191,19 @@ La documentation vise la conformité **RGAA AAA** :
 - Contraste des couleurs > 7:1 en mode clair et sombre
 - Attribut `lang` défini sur chaque page
 - Switcher de langue avec attributs `hreflang`
+
+## Microsoft Marketplace (Best Practices v7)
+
+Le site de documentation et l'offre sont alignés avec le *Microsoft Marketplace Best Practices Guide v7* :
+
+- Métadonnées SEO par page (jekyll-seo-tag), canonical, hreflang FR/EN
+- Données structurées (SoftwareApplication / Offer) en JSON-LD
+- Sitemap (jekyll-sitemap) et robots.txt
+- CTAs trackés avec UTM (`docs/_includes/marketplace-link.html`)
+- Pages de vente dédiées (`sales.md`, `sales-en.md`) et nurture d'essai (`trial.md`, `trial-en.md`)
+- Checklist Partner Center (`internal/partner-center-checklist*.md`) et analytics/KPI (`internal/analytics*.md`)
+
+Les IDs analytics (GA4, Clarity) sont des placeholders à renseigner dans `docs/_config.yml`.
 
 ---
 

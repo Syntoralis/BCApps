@@ -1,101 +1,105 @@
 ---
 layout: default
 title: "Differences from Standard Business Central FIFO"
+lang: en
+description: "How Syntoralis FIFO Logistic differs from the standard FIFO costing in Business Central."
+alt_url: /syntoralis-fifo-logistic/diff-bc-std.html
 ---
+
 # Differences from Standard Business Central FIFO
 
 ## Standard Business Central FIFO
 
-In standard Business Central, FIFO valuation is primarily managed through **Item Ledger Entries** and **Inventory Valuation**.
+In standard Business Central, FIFO valuation is mainly handled through **Item Ledger Entries** and **inventory valuation**.
 
-The standard FIFO costing method determines the value of inventory consumption based on the oldest inventory entries, but it does not guarantee that warehouse picks consume the physically oldest stock available in the warehouse.
+The standard FIFO costing method determines the value of stock consumption from the oldest inventory entries, but it does not guarantee that warehouse picks physically consume the oldest stock available in the warehouse.
 
 Warehouse activities generally rely on:
 
-- Bin Ranking
-- Bin Types
-- Fixed Bins
-- Dedicated Bins
+- Bin ranking
+- Bin types
+- Fixed bins
+- Dedicated bins
 - FEFO (First Expired First Out)
 - Standard warehouse selection algorithms
 
-As a result, the inventory physically picked in the warehouse may differ from the inventory layer used for financial FIFO valuation.
+As a result, the stock physically picked in the warehouse can differ from the inventory layer used for financial FIFO valuation.
 
 ---
 
-## Syntoralis FIFO Logistic Approach
+## Syntoralis FIFO Logistic approach
 
-The Syntoralis FIFO solution introduces a **Physical FIFO Management** layer at warehouse level.
+The Syntoralis FIFO solution introduces a **physical FIFO management** layer at the warehouse level.
 
-Instead of relying only on inventory valuation entries, the solution tracks the actual stock-in movement date and time for warehouse inventory and uses this information during warehouse pick creation.
+Instead of relying solely on valuation entries, the solution records the actual date and time of the stock-in movement and uses this information when creating warehouse picks.
 
 Inventory is therefore consumed according to:
 
 ```text
-Oldest Stock-in Movement DateTime First
+Oldest stock-in date/time first
 ```
 
-regardless of the bin where the inventory is stored.
+regardless of the stock position in the bin.
 
 ---
 
-## Main Differences
+## Key differences
 
-### FIFO Criteria
+### FIFO criterion
 
 #### Standard Business Central
 
-FIFO is based on:
+FIFO relies on:
 
 ```text
-Item Ledger Entry chronology
+Item Ledger Entries chronology
 ```
 
-primarily for costing and inventory valuation.
+mainly for valuation and accounting.
 
 #### Syntoralis FIFO
 
-FIFO is based on:
+FIFO relies on:
 
 ```text
-Warehouse Stock-in DateTime
+Stock-in DateTime (warehouse Stock-in DateTime)
 ```
 
-for physical warehouse execution.
+for physical execution in the warehouse.
 
 ---
 
-### Warehouse Pick Selection
+### Selection for warehouse picks
 
 #### Standard Business Central
 
-Warehouse picks are generated according to warehouse configuration such as:
+Picks are generated according to warehouse configuration:
 
-- Bin Ranking
-- Fixed Bins
-- Dedicated Bins
-- Default Bins
+- Bin ranking
+- Fixed bins
+- Dedicated bins
+- Default bins
 - FEFO rules
 
 The oldest stock is not necessarily selected.
 
 #### Syntoralis FIFO
 
-Warehouse picks are generated according to:
+Picks are generated according to:
 
 ```text
-Oldest available Stock-in DateTime
+Oldest available stock-in date/time
 ```
 
-ensuring true FIFO stock rotation within the warehouse.
+guaranteeing true physical FIFO rotation in the warehouse.
 
 ---
 
-### Inventory Visibility
+### Inventory visibility
 
 #### Standard Business Central
 
-Users have visibility into:
+Users have visibility on:
 
 - Item Ledger Entries
 - Warehouse Entries
@@ -105,27 +109,27 @@ However, the exact FIFO sequence used during warehouse consumption is not direct
 
 #### Syntoralis FIFO
 
-The Warehouse Inventory page provides visibility into:
+The Warehouse Inventory page provides visibility on:
 
 - Stock-in DateTime
-- FIFO ordering
+- FIFO order
 - Remaining FIFO inventory
 
-allowing users to understand exactly which inventory will be consumed first.
+allowing users to understand precisely which stock will be consumed first.
 
 ---
 
-### FIFO Tracking
+### FIFO tracking
 
 #### Standard Business Central
 
-No warehouse-level FIFO layer is maintained.
+There is no FIFO layer maintained at the warehouse level.
 
-Warehouse entries are not tracked with dedicated FIFO quantities.
+Warehouse Entries do not keep dedicated FIFO quantities.
 
 #### Syntoralis FIFO
 
-Warehouse entries maintain:
+Warehouse Entries keep:
 
 ```text
 Open
@@ -140,53 +144,53 @@ allowing the system to build and maintain FIFO consumption layers for warehouse 
 
 #### Standard Business Central
 
-No initialization process is required.
+No initialization process required.
 
 #### Syntoralis FIFO
 
-A FIFO initialization must be performed through the Recompute function before activating the solution.
+A FIFO initialization must be performed via the Recompute function before activating the solution.
 
-This ensures that FIFO inventory layers are correctly established from historical warehouse transactions.
+This ensures that FIFO layers are correctly rebuilt from historical warehouse transactions.
 
 ---
 
-### Lot and Serial Number Management
+### Lot and serial number handling
 
 #### Standard Business Central
 
-Lot and serial selection depends on standard warehouse and item tracking logic.
+Lot and serial selection depends on standard warehouse logic and item tracking.
 
 #### Syntoralis FIFO
 
-Lot and serial selection follows FIFO stock-in movement rules and ensures that tracked inventory is consumed in the same sequence as non-tracked inventory.
+Lot and serial selection follows FIFO rules based on the stock-in date/time, ensuring that tracked inventory is consumed in the same sequence as untracked inventory.
 
 ---
 
-### FEFO Integration
+### FEFO integration
 
 #### Standard Business Central
 
-FEFO can influence warehouse selection when expiration dates exist.
+FEFO can influence selection when expiration dates exist.
 
 #### Syntoralis FIFO
 
-The solution includes dedicated compatibility logic to avoid conflicts between FEFO processing and FIFO stock-in movement processing.
+The solution integrates dedicated compatibility logic to avoid conflicts between FEFO processing and FIFO processing based on stock-in movements.
 
 ---
 
-# Why Use the Warehouse Inventory Page?
+# Why use the Warehouse Inventory page?
 
-The standard Business Central pages allow users to view inventory quantities but do not provide a direct view of the FIFO sequence that will be used by warehouse picks.
+Standard Business Central pages let you view quantities, but do not provide a direct view of the actual FIFO sequence that will be used by picks.
 
 The Warehouse Inventory page was introduced to provide:
 
-- Visibility of FIFO inventory layers.
-- Visibility of Stock-in DateTime values.
-- Validation of FIFO ordering.
+- Visibility of FIFO layers.
+- Visibility of Stock-in DateTimes.
+- Validation of FIFO order.
 - Traceability of warehouse consumption decisions.
-- Operational support during troubleshooting and FIFO initialization.
+- Operational support for FIFO initialization and troubleshooting.
 
-It therefore acts as the operational counterpart of the FIFO engine and provides transparency that is not available in standard Business Central warehouse functionality.
+It is therefore the operational counterpart of the FIFO engine and provides transparency absent from standard Business Central features.
 
 ---
 

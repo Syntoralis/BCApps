@@ -1,6 +1,8 @@
 ---
 layout: default
 title: "Différences avec le FIFO standard de Business Central"
+lang: fr
+alt_url: /syntoralis-fifo-logistic/diff-bc-std-en.html
 ---
 
 # Différences avec le FIFO standard de Business Central

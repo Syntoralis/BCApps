@@ -1,31 +1,55 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" href="https://syntoralis.eu/favicon.ico" type="image/x-icon">
-    <meta name="description" content="Syntoralis Où la tech rencontre l’éthique, la durabilité et la conformité. Progiciels et accompagnement numérique responsable pour entreprises et particuliers.">
-    <meta name="keywords" content="numérique responsable, RSE numérique, conformité RGPD, progiciels, Syntoralis, Vaux-sur-Seine, dark mode, écoconception, accessibilité, numérique éthique">
-    <meta name="author" content="Syntoralis EURL">
-    <meta name="image" property="og:image" content="https://syntoralis.eu/img/logo-syntoralis.rs.png">
-    <meta name="robots" content="index, follow">
-    <link rel="alternate" hreflang="fr" href="https://syntoralis.eu/index.html">
-    <link rel="alternate" hreflang="en" href="https://syntoralis.eu/index-en.html">
-    <link rel="canonical" href="https://syntoralis.eu/index.html">
-    <!-- Open Graph / Facebook -->
-    <meta property="og:title" content="Syntoralis Numérique responsable, éthique, conforme">
-    <meta property="og:description" content="Progiciels et accompagnement numérique responsable pour entreprises et particuliers. Conformité, RSE, sobriété, accessibilité.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://syntoralis.eu">
-    <meta property="og:image" content="https://syntoralis.eu/img/logo-syntoralis.rs.png">
-    <meta property="og:locale" content="fr_FR">
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Syntoralis Numérique responsable, éthique, conforme">
-    <meta name="twitter:description" content="Progiciels et accompagnement numérique responsable pour entreprises et particuliers. Conformité, RSE, sobriété, accessibilité.">
-    <meta name="twitter:image" content="https://syntoralis.eu/img/logo-syntoralis.rs.png">
-    <title>{{ page.title | default: site.title }}</title>
+    {% if page.noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
+    <link rel="icon" href="{{ '/img/logo-syntoralis.rs.svg' | relative_url }}" type="image/svg+xml">
+    {% seo %}
+    {% assign alt_lang = 'en' %}
+    {% if page.lang == 'en' %}{% assign alt_lang = 'fr' %}{% endif %}
+    {% if page.alt_url %}
+    <link rel="alternate" hreflang="{{ alt_lang }}" href="{{ page.alt_url | absolute_url }}">
+    <link rel="alternate" hreflang="{{ page.lang | default: site.lang }}" href="{{ page.url | absolute_url }}">
+    {% endif %}
+    <!-- JSON-LD: SoftwareApplication / Offer -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Syntoralis FIFO Logistic",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Microsoft Dynamics 365 Business Central",
+      "description": "{{ page.description | default: site.description | escape }}",
+      "offers": {
+        "@type": "Offer",
+        "url": "{{ site.marketplace_url }}",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock"
+      },
+      "url": "{{ page.url | absolute_url }}"
+    }
+    </script>
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    <!-- Analytics (conditional) -->
+    {% if site.ga4_measurement_id != "" %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga4_measurement_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ site.ga4_measurement_id }}');
+    </script>
+    {% endif %}
+    {% if site.clarity_project_id != "" %}
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "{{ site.clarity_project_id }}");
+    </script>
+    {% endif %}
     <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
 

@@ -1,6 +1,9 @@
 ---
 layout: default
 title: "Welcome to BC Syntoralis FIFO Logistic Helper"
+lang: en
+description: "Documentation for the Syntoralis FIFO Logistic extension for Business Central — FIFO picking."
+alt_url: /syntoralis-fifo-logistic/index.html
 ---
 
 ## Scope
@@ -106,7 +109,12 @@ This produces a pick document compliant with FIFO rules without changing standar
 - [Pick Process](./pick-process-en.html)
 - [Warehouse Inventory Page](./whse-inventory-en.html)
 - [FIFO Setup](./setup-en.html)
-- [Recompute Process](./recompute-process.html)
+- [Recompute Process](./recompute-process-en.html)
 
 ## Download section
 [MarketPlace App](https://github.com/Syntoralis/BCApps/tree/main/AppSource/Syntoralis-fifo-logistic)
+
+{% include marketplace-link.html label="Buy on Microsoft Marketplace" placement="docs-en" %}
+
+- [Sales page](./sales-en.html)
+- [30-day free trial](./trial-en.html)
