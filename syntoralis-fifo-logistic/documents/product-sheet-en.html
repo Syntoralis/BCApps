@@ -43,26 +43,14 @@
       "url": "https://syntoralis.github.io/BCApps/syntoralis-fifo-logistic/documents/product-sheet-en.html"
     }
     </script>
-    <link rel="stylesheet" href="/BCApps/assets/css/style.css">
-    <!-- Analytics (conditional) -->
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QNNHT4J9SH"></script>
+    <!-- Analytics IDs (loaded only after cookie consent) -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-QNNHT4J9SH');
+      window.SITE_ANALYTICS = {
+        ga4: "G-QNNHT4J9SH",
+        clarity: "z6rt2j2qns"
+      };
     </script>
-    
-    
-    <script type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "z6rt2j2qns");
-    </script>
-    
+    <link rel="stylesheet" href="/BCApps/assets/css/style.css">
     <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
 
@@ -609,6 +597,7 @@ A: Via the <strong>FIFO recalculation</strong> function, which rebuilds FIFO lay
       <a href="https://syntoralis.eu/index.html?#cgv-b2b" target="_blank" rel="noopener noreferrer" class="cgvb2b-toggle-link" aria-label="Conditions générales de vente pour professionnels (nouvelle fenêtre)">Conditions générales de vente pour professionnels</a>
     </p>
     <p>®2026 Syntoralis EURL. Tous droits réservés.</p>
+    <p><button type="button" onclick="if(window.openCookieSettings)window.openCookieSettings();" style="background:none;border:none;color:#90caf9;cursor:pointer;text-decoration:underline;padding:0;">Paramètres cookies</button></p>
     
     <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; width: 100%; max-width: 800px; margin: 1rem auto 0; gap: 1rem;">
       <div style="flex: 1 1 150px; text-align: center; max-width: 200px;">
@@ -634,5 +623,80 @@ A: Via the <strong>FIFO recalculation</strong> function, which rebuilds FIFO lay
     </div>
     <script src="https://syntoralis.eu/script.js" defer></script>
   </footer>
+  <!-- Cookie consent banner (GDPR/ePrivacy) -->
+<div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#1a1a1a;color:#fff;padding:1rem;box-shadow:0 -2px 10px rgba(0,0,0,.3);font-family:inherit;">
+  <div style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;">
+    <div style="flex:1 1 320px;font-size:.95rem;line-height:1.4;">
+      
+        Ce site utilise des cookies (Google Analytics, Microsoft Clarity) pour mesurer l'audience et améliorer l'expérience. Vous pouvez accepter ou refuser les cookies non essentiels.
+        <a href="https://syntoralis.eu/index.html?#mentions-legales" target="_blank" rel="noopener" style="color:#90caf9;">Politique de confidentialité</a>.
+      
+    </div>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+      <button id="cookie-accept" type="button" style="background:#1B5E20;color:#fff;border:none;padding:.5rem 1rem;border-radius:4px;cursor:pointer;font-weight:600;">Accepter</button>
+      <button id="cookie-reject" type="button" style="background:transparent;color:#fff;border:1px solid #fff;padding:.5rem 1rem;border-radius:4px;cursor:pointer;">Refuser</button>
+      <button id="cookie-settings" type="button" style="background:transparent;color:#ccc;border:none;padding:.5rem .25rem;cursor:pointer;text-decoration:underline;">Paramètres</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY = 'syntoralis_cookie_consent';
+  var cfg = window.SITE_ANALYTICS || {};
+  function loadGA4(id){
+    if(!id) return;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', id, { anonymize_ip: true });
+  }
+  function loadClarity(id){
+    if(!id) return;
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, 'clarity', 'script', id);
+  }
+  function apply(choice){
+    if(choice === 'accepted'){
+      loadGA4(cfg.ga4);
+      loadClarity(cfg.clarity);
+    }
+  }
+  function showBanner(){
+    var b = document.getElementById('cookie-banner');
+    if(b) b.style.display = 'block';
+  }
+  function hideBanner(){
+    var b = document.getElementById('cookie-banner');
+    if(b) b.style.display = 'none';
+  }
+  window.openCookieSettings = function(){
+    localStorage.removeItem(KEY);
+    showBanner();
+  };
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch(e){}
+  if(stored === 'accepted' || stored === 'rejected'){
+    apply(stored);
+  } else {
+    showBanner();
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    var a = document.getElementById('cookie-accept');
+    var r = document.getElementById('cookie-reject');
+    var s = document.getElementById('cookie-settings');
+    if(a) a.addEventListener('click', function(){ try{localStorage.setItem(KEY,'accepted');}catch(e){} hideBanner(); apply('accepted'); });
+    if(r) r.addEventListener('click', function(){ try{localStorage.setItem(KEY,'rejected');}catch(e){} hideBanner(); });
+    if(s) s.addEventListener('click', function(){ window.openCookieSettings(); });
+  });
+})();
+</script>
   </body>
 </html>
