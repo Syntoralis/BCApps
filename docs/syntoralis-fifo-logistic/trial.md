@@ -49,7 +49,6 @@ Avant la fin des 30 jours, achetez la licence sur le Marketplace pour conserver 
 
 ## Support pendant l'essai
 
-- E-mail : support@syntoralis.eu
 - Documentation : [index](./index.html)
 - Mentions légales & confidentialité : [syntoralis.eu](https://syntoralis.eu)
 

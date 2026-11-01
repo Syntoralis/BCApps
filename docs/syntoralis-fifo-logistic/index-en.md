@@ -112,9 +112,6 @@ This produces a pick document compliant with FIFO rules without changing standar
 - [Recompute Process](./recompute-process-en.html)
 
 ## Download section
-[MarketPlace App](https://github.com/Syntoralis/BCApps/tree/main/AppSource/Syntoralis-fifo-logistic)
-
-{% include marketplace-link.html label="Buy on Microsoft Marketplace" placement="docs-en" %}
 
 - [Sales page](./sales-en.html)
 - [30-day free trial](./trial-en.html)

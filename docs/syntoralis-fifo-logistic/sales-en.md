@@ -43,10 +43,10 @@ Business Central selects stock by bin, not by real age. Result: uneven rotation,
 
 ## How it works
 
-1. **Install** from the Microsoft Marketplace (30-day free trial).
-2. **Configure** the locations involved (see [FIFO Setup](./setup-en.html)).
-3. **Pick**: the engine automatically selects the oldest FIFO layers.
-4. **Track**: remaining FIFO quantities updated in real time.
+- **Install** from the Microsoft Marketplace (30-day free trial).
+- **Configure** the locations involved (see [FIFO Setup](./setup-en.html)).
+- **Pick**: the engine automatically selects the oldest FIFO layers.
+- **Track**: remaining FIFO quantities updated in real time.
 
 ## Pricing & trial
 
@@ -72,7 +72,7 @@ Business Central selects stock by bin, not by real age. Result: uneven rotation,
 
 {% include marketplace-link.html label="Get on Microsoft Marketplace" placement="sales-bottom-en" %}
 
-[Full documentation](./index-en.html) · [Download .app](https://github.com/Syntoralis/BCApps/tree/main/AppSource/Syntoralis-fifo-logistic)
+[Full documentation](./index-en.html)
 
 ---
 

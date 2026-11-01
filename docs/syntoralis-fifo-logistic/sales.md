@@ -43,10 +43,10 @@ Business Central sélectionne les stocks par emplacement, pas par ancienneté r�
 
 ## Comment ça marche
 
-1. **Installation** depuis le Microsoft Marketplace (essai gratuit 30 jours).
-2. **Paramétrage** des emplacements concernés (voir [Paramétrage FIFO](./setup.html)).
-3. **Prélèvement** : le moteur sélectionne automatiquement les couches FIFO les plus anciennes.
-4. **Suivi** : quantités FIFO restantes mises à jour en temps réel.
+- **Installation** depuis le Microsoft Marketplace (essai gratuit 30 jours).
+- **Paramétrage** des emplacements concernés (voir [Paramétrage FIFO](./setup.html)).
+- **Prélèvement** : le moteur sélectionne automatiquement les couches FIFO les plus anciennes.
+- **Suivi** : quantités FIFO restantes mises à jour en temps réel.
 
 ## Tarification & essai
 
@@ -72,7 +72,7 @@ Business Central sélectionne les stocks par emplacement, pas par ancienneté r�
 
 {% include marketplace-link.html label="Obtenir sur le Microsoft Marketplace" placement="sales-bottom-fr" %}
 
-[Documentation complète](./index.html) · [Télécharger le .app](https://github.com/Syntoralis/BCApps/tree/main/AppSource/Syntoralis-fifo-logistic)
+[Documentation complète](./index.html)
 
 ---
 

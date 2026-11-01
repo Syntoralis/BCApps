@@ -49,7 +49,6 @@ Before the 30 days end, purchase the license on the Marketplace to keep the func
 
 ## Support during the trial
 
-- Email: support@syntoralis.eu
 - Documentation: [index](./index-en.html)
 - Legal & privacy: [syntoralis.eu](https://syntoralis.eu)
 

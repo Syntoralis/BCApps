@@ -112,9 +112,6 @@ L'utilisateur obtient ainsi un document de prélèvement conforme aux règles FI
 - [Processus de Recalcul FIFO](./recompute-process.html)
 
 ## Zone de téléchargement
-[MarketPlace App](https://github.com/Syntoralis/BCApps/tree/main/AppSource/Syntoralis-fifo-logistic)
-
-{% include marketplace-link.html label="Acheter sur le Microsoft Marketplace" placement="docs-fr" %}
 
 - [Page de vente](./sales.html)
 - [Essai gratuit 30 jours](./trial.html)
