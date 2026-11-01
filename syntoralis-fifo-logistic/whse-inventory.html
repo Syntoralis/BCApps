@@ -492,7 +492,7 @@ F --&gt; G[Le moteur FIFO consomme l'inventaire le plus ancien]
       <a href="https://syntoralis.eu/index.html?#cgv-b2b" target="_blank" rel="noopener noreferrer" class="cgvb2b-toggle-link" aria-label="Conditions générales de vente pour professionnels (nouvelle fenêtre)">Conditions générales de vente pour professionnels</a>
     </p>
     <p>®2026 Syntoralis EURL. Tous droits réservés.</p>
-    <p><button type="button" onclick="if(window.openCookieSettings)window.openCookieSettings();" style="background:none;border:none;color:#90caf9;cursor:pointer;text-decoration:underline;padding:0;">Paramètres cookies</button></p>
+    <p><button type="button" onclick="if(window.openCookieSettings)window.openCookieSettings();" style="background:none;border:none;color:var(--accent-color);cursor:pointer;text-decoration:underline;padding:0;">Paramètres cookies</button></p>
     
     <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; width: 100%; max-width: 800px; margin: 1rem auto 0; gap: 1rem;">
       <div style="flex: 1 1 150px; text-align: center; max-width: 200px;">
@@ -519,18 +519,23 @@ F --&gt; G[Le moteur FIFO consomme l'inventaire le plus ancien]
     <script src="https://syntoralis.eu/script.js" defer></script>
   </footer>
   <!-- Cookie consent banner (GDPR/ePrivacy) -->
-<div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#1a1a1a;color:#fff;padding:1rem;box-shadow:0 -2px 10px rgba(0,0,0,.3);font-family:inherit;">
+<div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--card-bg);color:var(--text-color);padding:1rem;box-shadow:0 -2px 10px var(--shadow);font-family:inherit;border-top:1px solid var(--border-color);">
   <div style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;">
     <div style="flex:1 1 320px;font-size:.95rem;line-height:1.4;">
       
         Ce site utilise des cookies (Google Analytics, Microsoft Clarity) pour mesurer l'audience et améliorer l'expérience. Vous pouvez accepter ou refuser les cookies non essentiels.
-        <a href="https://syntoralis.eu/index.html?#mentions-legales" target="_blank" rel="noopener" style="color:#90caf9;">Politique de confidentialité</a>.
+        <a href="/BCApps/cookies.html" target="_blank" rel="noopener" style="color:var(--accent-color);">Politique de cookies</a>.
       
     </div>
     <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-      <button id="cookie-accept" type="button" style="background:#1B5E20;color:#fff;border:none;padding:.5rem 1rem;border-radius:4px;cursor:pointer;font-weight:600;">Accepter</button>
-      <button id="cookie-reject" type="button" style="background:transparent;color:#fff;border:1px solid #fff;padding:.5rem 1rem;border-radius:4px;cursor:pointer;">Refuser</button>
-      <button id="cookie-settings" type="button" style="background:transparent;color:#ccc;border:none;padding:.5rem .25rem;cursor:pointer;text-decoration:underline;">Paramètres</button>
+      <button id="cookie-accept" type="button" style="background:var(--accent-color);color:var(--bg-color);border:none;padding:.5rem 1rem;border-radius:4px;cursor:pointer;font-weight:600;">Accepter</button>
+      <button id="cookie-reject" type="button" style="background:transparent;color:var(--text-color);border:1px solid var(--border-color);padding:.5rem 1rem;border-radius:4px;cursor:pointer;">Refuser</button>
+      <button id="cookie-settings" type="button" aria-expanded="false" aria-controls="cookie-details" style="background:transparent;color:var(--text-color);border:none;padding:.5rem .25rem;cursor:pointer;text-decoration:underline;opacity:.85;">Paramètres</button>
+    </div>
+    <div id="cookie-details" style="display:none;flex-basis:100%;margin-top:.5rem;font-size:.85rem;line-height:1.4;color:var(--text-color);">
+      
+        <p style="margin:.25rem 0;">Cookies non essentiels : Google Analytics (GA4 : <code>_ga</code>, <code>_gid</code>) pour la mesure d'audience, Microsoft Clarity (<code>_clck</code>, <code>_clsk</code>) pour les heatmaps et enregistrements de session. Voir la <a href="/BCApps/cookies.html" style="color:var(--accent-color);">politique de cookies</a>.</p>
+      
     </div>
   </div>
 </div>
@@ -589,9 +594,13 @@ F --&gt; G[Le moteur FIFO consomme l'inventaire le plus ancien]
     var s = document.getElementById('cookie-settings');
     if(a) a.addEventListener('click', function(){ try{localStorage.setItem(KEY,'accepted');}catch(e){} hideBanner(); apply('accepted'); });
     if(r) r.addEventListener('click', function(){ try{localStorage.setItem(KEY,'rejected');}catch(e){} hideBanner(); });
-    if(s) s.addEventListener('click', function(){ window.openCookieSettings(); });
+    if(s) s.addEventListener('click', function(){
+      var d = document.getElementById('cookie-details');
+      if(d){ d.style.display = (d.style.display === 'block') ? 'none' : 'block'; s.setAttribute('aria-expanded', d.style.display === 'block' ? 'true' : 'false'); }
+    });
   });
 })();
 </script>
+
   </body>
 </html>
