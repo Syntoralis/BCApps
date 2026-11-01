@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://syntoralis.github.io/BCApps/sitemap.xml
