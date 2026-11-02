@@ -37,6 +37,6 @@ Le dépôt des cookies non essentiels repose sur votre consentement (art. 6.1.a 
 
 ## Contact
 
-Pour toute question relative aux cookies : support@syntoralis.eu
+Pour toute question relative aux cookies [Contactez-nous](https://syntoralis.eu/index.html?#contact)
 
 Voir aussi la [politique de confidentialité](https://syntoralis.eu/index.html?#mentions-legales) de Syntoralis EURL.
