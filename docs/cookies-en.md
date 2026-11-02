@@ -14,8 +14,7 @@ This documentation site (`syntoralis.github.io/BCApps`) uses cookies and similar
 
 | Cookie | Provider | Purpose | Duration |
 |---|---|---|---|
-| `_ga`, `_ga_*` | Google Analytics (GA4) | Audience measurement, 
-anonymized statistics | 2 years |
+| `_ga`, `_ga_*` | Google Analytics (GA4) | Audience measurement, anonymized statistics | 2 years |
 | `_gid` | Google Analytics (GA4) | User distinction | 24 h |
 | `_clck`, `_clsk` | Microsoft Clarity | Heatmaps, session recordings, UX analysis | 1 year |
 
